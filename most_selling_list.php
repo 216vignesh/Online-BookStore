@@ -8,12 +8,13 @@ $password = 'Fit4M0Re!';
  
 // Database name is geeksforgeeks
 $database = 'BookStore';
- 
 // Server is localhost with
 // port number 3306
 $servername='dbms-project.csddeoelb5pk.us-east-1.rds.amazonaws.com:3306';
 $mysqli = new mysqli($servername, $user,
                 $password, $database);
+$link = mysqli_connect($servername, $user, $password, $database);
+
 
 // Checking for connections
 if ($mysqli->connect_error) {
@@ -30,6 +31,23 @@ $mysqli->close();
 
 
 }
+
+if(isset($_POST['add'])){
+                $_SESSION['title']=$_POST['title'];
+                $_SESSION['price']=$_POST['price'];
+                $_SESSION['quantity']=$_POST['quantity'];
+                $sql = "SELECT Book.title AS Popular_In_SciFi, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold, Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE Info.genre = 'SciFi/Fantasy' GROUP BY Popular_In_SciFi ORDER BY COUNT(*) DESC";
+                
+                $sql2="INSERT INTO Cart(email,quantity,price,book_title)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."')";
+                if(mysqli_query($link, $sql2)){
+                
+                } else{
+                echo "ERROR: Could not able to execute $sql2. " . mysqli_error($link);
+                }                 
+                
+                $result = $mysqli->query($sql);
+                $mysqli->close();
+                }
 ?>
 
 <!-- HTML code to display data in tabular format -->
@@ -77,6 +95,12 @@ $mysqli->close();
 </head>
  
 <body>
+    <form action="cart.php" method="post" accept-charset="utf-8" class="custom-add2cart">
+   <div class="add-button-wrapper widget-fingerprint-product-add-button">
+       <input type="submit" name="display_cart"class="btn regular-button regular-main-button add2cart submit" value="Display cart">
+           
+   </div>
+</form>
     <section>
         <h1>Sci-Fi Popular books</h1>
         <!-- TABLE CONSTRUCTION -->
@@ -90,20 +114,27 @@ $mysqli->close();
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
             <?php
+
                 // LOOP TILL END OF DATA
                 while($rows=$result->fetch_assoc())
                 {
+                    $_SESSION["Popular_In_SciFi"]=$rows['Popular_In_SciFi'];
+                    $_SESSION["Price"]=$rows['Price'];
+                    
             ?>
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <tr>
                 <!-- FETCHING DATA FROM EACH
                     ROW OF EVERY COLUMN -->
-                <td><?php echo $rows['Popular_In_SciFi'];?></td>
+                <td><input type="text" name="title" value="<?php echo $rows["Popular_In_SciFi"] ?>" readonly></td>
                 <td><?php echo $rows['Author_Name'];?></td>
-                <td><?php echo $rows['Price'];?></td>
-                <td><a href="#0" class="cd-add-to-cart js-cd-add-to-cart" data-price="<?php echo $rows['Price'];?>">Add To Cart</a></td>
+                <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
+                <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
                 
             </tr>
+        </form>
             <?php
+                
                 }
             ?>
         </table>
