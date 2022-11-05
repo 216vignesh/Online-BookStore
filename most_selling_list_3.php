@@ -24,11 +24,12 @@ if ($mysqli->connect_error) {
 
 if (isset($_POST['Romance'])) {
 // SQL query to select data from database
-$sql = "SELECT Book.title AS Popular_In_Romance, COUNT(*) AS NumberOfCopiesSold
+$sql = "SELECT Book.title AS Popular_In_Romance, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price
 FROM Book
 INNER JOIN Edition ON Edition.bid=Book.bid
 INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn
 INNER JOIN Info ON Info.bid=Book.bid
+INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid
 WHERE Info.genre = 'Romance'
 GROUP BY Popular_In_Romance
 ORDER BY COUNT(*) DESC";
@@ -37,7 +38,27 @@ $mysqli->close();
 
 
 }
+
+
+if(isset($_POST['add'])){
+                $_SESSION['title']=$_POST['title'];
+                $_SESSION['price']=$_POST['price'];
+                $_SESSION['quantity']=$_POST['quantity'];
+                $sql = "SELECT Book.title AS Popular_In_Romance, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE Info.genre = 'Romance' GROUP BY Popular_In_Romance ORDER BY COUNT(*) DESC";
+                
+                $sql2="INSERT INTO Cart(email,quantity,price,book_title)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."')";
+                if(mysqli_query($link, $sql2)){
+                
+                } else{
+                echo "ERROR: Could not able to execute $sql2. " . mysqli_error($link);
+                }                 
+                
+                $result = $mysqli->query($sql);
+                $mysqli->close();
+                }
 ?>
+
+
 
 <!-- HTML code to display data in tabular format -->
 <!DOCTYPE html>
@@ -82,12 +103,21 @@ $mysqli->close();
 </head>
  
 <body>
+	<form action="cart.php" method="post" accept-charset="utf-8" class="custom-add2cart">
+   <div class="add-button-wrapper widget-fingerprint-product-add-button">
+       <input type="submit" name="display_cart"class="btn regular-button regular-main-button add2cart submit" value="Display cart">
+           
+   </div>
+</form>
     <section>
         <h1>Romance Popular books</h1>
         <!-- TABLE CONSTRUCTION -->
         <table>
             <tr>
                 <th>Popular books in Romance</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th>Add to Cart</th>
                 
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
@@ -95,11 +125,16 @@ $mysqli->close();
                 // LOOP TILL END OF DATA
                 while($rows=$result->fetch_assoc())
                 {
+                	$_SESSION["Popular_In_Romance"]=$rows['Popular_In_Romance'];
+                    $_SESSION["Price"]=$rows['Price'];
             ?>
             <tr>
                 <!-- FETCHING DATA FROM EACH
                     ROW OF EVERY COLUMN -->
-                <td><?php echo $rows['Popular_In_Romance'];?></td>                
+                <td><input type="text" name="title" value="<?php echo $rows["Popular_In_Romance"] ?>" readonly></td>
+                <td><?php echo $rows['Author_Name'];?></td>
+                <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
+                <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>                
             </tr>
             <?php
                 }
