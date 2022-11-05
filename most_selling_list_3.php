@@ -24,12 +24,11 @@ if ($mysqli->connect_error) {
 
 if (isset($_POST['Romance'])) {
 // SQL query to select data from database
-$sql = "SELECT Book.title AS Popular_In_Romance, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price
+$sql = "SELECT Book.title AS Popular_In_Romance, COUNT(*) AS NumberOfCopiesSold
 FROM Book
 INNER JOIN Edition ON Edition.bid=Book.bid
 INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn
 INNER JOIN Info ON Info.bid=Book.bid
-INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid
 WHERE Info.genre = 'Romance'
 GROUP BY Popular_In_Romance
 ORDER BY COUNT(*) DESC";
@@ -89,9 +88,6 @@ $mysqli->close();
         <table>
             <tr>
                 <th>Popular books in Romance</th>
-                <th>Author</th>
-                <th>Price</th>
-                <th>Add to Cart</th>
                 
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
@@ -103,10 +99,7 @@ $mysqli->close();
             <tr>
                 <!-- FETCHING DATA FROM EACH
                     ROW OF EVERY COLUMN -->
-                <td><?php echo $rows['Popular_In_Romance'];?></td>
-                <td><?php echo $rows['Author_Name'];?></td>
-                <td><?php echo $rows['Price'];?></td>
-                <td><a href="#0" class="cd-add-to-cart js-cd-add-to-cart" data-price="<?php echo $rows['Price'];?>">Add To Cart</a></td>                
+                <td><?php echo $rows['Popular_In_Romance'];?></td>                
             </tr>
             <?php
                 }
