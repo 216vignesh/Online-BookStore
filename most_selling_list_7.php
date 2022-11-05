@@ -25,15 +25,7 @@ if ($mysqli->connect_error) {
 
 if (isset($_POST['Fiction'])) {
 // SQL query to select data from database
-$sql = "SELECT Book.title AS Popular_In_Fiction, Author.name AS Author_Name,COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price
-FROM Book
-INNER JOIN Edition ON Edition.bid=Book.bid
-INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn
-INNER JOIN Info ON Info.bid=Book.bid
-INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid
-WHERE Info.genre = 'Fiction'
-GROUP BY Popular_In_Fiction
-ORDER BY COUNT(*) DESC";
+$sql = "SELECT Book.title AS Popular_In_Fiction, Author.name AS Author_Name,COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE Info.genre = 'Fiction' GROUP BY Popular_In_Fiction ORDER BY COUNT(*) DESC";
 $result = $mysqli->query($sql);
 $mysqli->close();
 

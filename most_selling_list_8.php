@@ -26,15 +26,7 @@ if ($mysqli->connect_error) {
 
 if (isset($_POST['Children'])) {
 // SQL query to select data from database
-$sql = "SELECT Book.title AS Popular_In_Children, Author.name AS Author_Name,COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price
-FROM Book
-INNER JOIN Edition ON Edition.bid=Book.bid
-INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn
-INNER JOIN Info ON Info.bid=Book.bid
-INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid
-WHERE Info.genre = 'Childrens'
-GROUP BY Popular_In_Children
-ORDER BY COUNT(*) DESC";
+$sql = "SELECT Book.title AS Popular_In_Children, Author.name AS Author_Name,COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE Info.genre = 'Childrens' GROUP BY Popular_In_Children ORDER BY COUNT(*) DESC";
 $result = $mysqli->query($sql);
 $mysqli->close();
 
@@ -45,7 +37,7 @@ if(isset($_POST['add'])){
                 $_SESSION['title']=$_POST['title'];
                 $_SESSION['price']=$_POST['price'];
                 $_SESSION['quantity']=$_POST['quantity'];
-                $sql = "SELECT Book.title AS Popular_In_Children, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE Info.genre = 'Young Adult' GROUP BY Popular_In_Children ORDER BY COUNT(*) DESC";
+                $sql = "SELECT Book.title AS Popular_In_Children, Author.name AS Author_Name,COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE Info.genre = 'Childrens' GROUP BY Popular_In_Children ORDER BY COUNT(*) DESC";
                 
                 $sql2="INSERT INTO Cart(email,quantity,price,book_title)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."')";
                 if(mysqli_query($link, $sql2)){

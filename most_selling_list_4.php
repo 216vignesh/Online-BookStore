@@ -8,13 +8,13 @@ $password = 'Fit4M0Re!';
  
 // Database name is geeksforgeeks
 $database = 'BookStore';
- 
 // Server is localhost with
 // port number 3306
 $servername='dbms-project.csddeoelb5pk.us-east-1.rds.amazonaws.com:3306';
 $mysqli = new mysqli($servername, $user,
                 $password, $database);
 $link = mysqli_connect($servername, $user, $password, $database);
+
 
 // Checking for connections
 if ($mysqli->connect_error) {
@@ -25,15 +25,7 @@ if ($mysqli->connect_error) {
 
 if (isset($_POST['Non_Fiction'])) {
 // SQL query to select data from database
-$sql = "SELECT Book.title AS Popular_In_Nonfiction, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price
-FROM Book
-INNER JOIN Edition ON Edition.bid=Book.bid
-INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn
-INNER JOIN Info ON Info.bid=Book.bid
-INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid
-WHERE Info.genre = 'Nonfiction'
-GROUP BY Popular_In_Nonfiction
-ORDER BY COUNT(*) DESC";
+$sql = "SELECT Book.title AS Popular_In_Nonfiction, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE Info.genre = 'Nonfiction' GROUP BY Popular_In_Nonfiction ORDER BY COUNT(*) DESC";
 $result = $mysqli->query($sql);
 $mysqli->close();
 
@@ -64,7 +56,9 @@ if(isset($_POST['add'])){
  
 <head>
     <meta charset="UTF-8">
+    
     <title>Online Book Store</title>
+    
     <!-- CSS FOR STYLING THE PAGE -->
     <style>
         table {
@@ -100,7 +94,6 @@ if(isset($_POST['add'])){
     </style>
 </head>
  
-
 <body>
     <form action="cart.php" method="post" accept-charset="utf-8" class="custom-add2cart">
    <div class="add-button-wrapper widget-fingerprint-product-add-button">
@@ -121,11 +114,13 @@ if(isset($_POST['add'])){
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
             <?php
+
                 // LOOP TILL END OF DATA
                 while($rows=$result->fetch_assoc())
                 {
                     $_SESSION["Popular_In_Nonfiction"]=$rows['Popular_In_Nonfiction'];
                     $_SESSION["Price"]=$rows['Price'];
+                    
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <tr>
@@ -137,11 +132,13 @@ if(isset($_POST['add'])){
                 <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
                 
             </tr>
+        </form>
             <?php
+                
                 }
             ?>
         </table>
-    </section>
+        </section>
 
     
 </body>
