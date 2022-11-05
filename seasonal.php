@@ -28,34 +28,51 @@ if ($mysqli->connect_error) {
 $sql = "SELECT Book_SalesReport.Book AS WinterFavorites, Book_SalesReport.Author_Name, Book_SalesReport.Price FROM Book_SalesReport WHERE MONTH(Book_SalesReport.DATE) = 12 OR MONTH(Book_SalesReport.DATE) = 1 OR MONTH(Book_SalesReport.DATE) = 2 LIMIT 10";
 $result = $mysqli->query($sql);
 
-$sql2= "SELECT Book.title AS SpringFavorites, Author.name AS Author_Name,Edition.price AS Price FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=3 OR MONTH(sale_date)=4 OR MONTH(sale_date)=5 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10;"
+$sql2= "SELECT Book.title AS SpringFavorites, Author.name AS Author_Name,Edition.price AS Price FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=3 OR MONTH(sale_date)=4 OR MONTH(sale_date)=5 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
 $result2 = $mysqli->query($sql2);
 
-$sql3="SELECT Book.title AS SummerFavorites, Author.name AS Author_Name, Edition.price AS Price  FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=6 OR MONTH(sale_date)=7 OR MONTH(sale_date)=8 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10;"
+$sql3="SELECT Book.title AS SummerFavorites, Author.name AS Author_Name, Edition.price AS Price  FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=6 OR MONTH(sale_date)=7 OR MONTH(sale_date)=8 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
 $result3 = $mysqli->query($sql3);
 
-$sql4="SELECT title AS AutumnFavorites, COUNT(*) AS NumberOfUnitsSold FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid WHERE MONTH(sale_date)=9 OR MONTH(sale_date)=10 OR MONTH(sale_date)=11 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10;"
+$sql4="SELECT title AS AutumnFavorites, COUNT(*) AS NumberOfUnitsSold, Author.name AS Author_Name, Edition.price AS Price FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=9 OR MONTH(sale_date)=10 OR MONTH(sale_date)=11 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
 
+$result4 = $mysqli->query($sql4);
 
 $mysqli->close();
 
 
 if(isset($_POST['add'])){
+                $mysqli = new mysqli($servername, $user,
+                $password, $database);
                 $_SESSION['title']=$_POST['title'];
                 $_SESSION['price']=$_POST['price'];
                 $_SESSION['quantity']=$_POST['quantity'];
                 $sql = "SELECT Book_SalesReport.Book AS WinterFavorites, Book_SalesReport.Author_Name, Book_SalesReport.Price FROM Book_SalesReport WHERE MONTH(Book_SalesReport.DATE) = 12 OR MONTH(Book_SalesReport.DATE) = 1 OR MONTH(Book_SalesReport.DATE) = 2 LIMIT 10";
+
+                $sql2= "SELECT Book.title AS SpringFavorites, Author.name AS Author_Name,Edition.price AS Price FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=3 OR MONTH(sale_date)=4 OR MONTH(sale_date)=5 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
+
+                $sql3="SELECT Book.title AS SummerFavorites, Author.name AS Author_Name, Edition.price AS Price  FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=6 OR MONTH(sale_date)=7 OR MONTH(sale_date)=8 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
+
+                $sql4="SELECT title AS AutumnFavorites, COUNT(*) AS NumberOfUnitsSold, Author.name AS Author_Name, Edition.price AS Price FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=9 OR MONTH(sale_date)=10 OR MONTH(sale_date)=11 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
                 
-                $sql2="INSERT INTO Cart(email,quantity,price,book_title)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."')";
-                if(mysqli_query($link, $sql2)){
+                $sql5="INSERT INTO Cart(email,quantity,price,book_title)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."')";
+                if(mysqli_query($link, $sql5)){
                 
                 } else{
-                echo "ERROR: Could not able to execute $sql2. " . mysqli_error($link);
+                echo "ERROR: Could not able to execute $sql5. " . mysqli_error($link);
                 }                 
                 
                 $result = $mysqli->query($sql);
+                
+                $result2 = $mysqli->query($sql2);
+               
+                $result3 = $mysqli->query($sql3);
+                
+                $result4 = $mysqli->query($sql4);
+
                 $mysqli->close();
                 }
+
 ?>
 
 <!-- HTML code to display data in tabular format -->
@@ -110,11 +127,11 @@ if(isset($_POST['add'])){
    </div>
 </form>
     <section>
-        <h1>Sci-Fi Popular books</h1>
+        <h1>Winter favorites</h1>
         <!-- TABLE CONSTRUCTION -->
         <table>
             <tr>
-                <th>Popular books in Sci-Fi</th>
+                <th>Popular books in Winter</th>
                 <th>Author</th>
                 <th>Price</th>
                 <th>Add to Cart</th>
@@ -126,7 +143,7 @@ if(isset($_POST['add'])){
                 // LOOP TILL END OF DATA
                 while($rows=$result->fetch_assoc())
                 {
-                    $_SESSION["Popular_In_SciFi"]=$rows['Popular_In_SciFi'];
+                    $_SESSION["WinterFavorites"]=$rows['WinterFavorites'];
                     $_SESSION["Price"]=$rows['Price'];
                     
             ?>
@@ -134,9 +151,127 @@ if(isset($_POST['add'])){
             <tr>
                 <!-- FETCHING DATA FROM EACH
                     ROW OF EVERY COLUMN -->
-                <td><input type="text" name="title" value="<?php echo $rows["Popular_In_SciFi"] ?>" readonly></td>
+                <td><input type="text" name="title" value="<?php echo $rows["WinterFavorites"] ?>" readonly></td>
                 <td><?php echo $rows['Author_Name'];?></td>
                 <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
+                <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
+                
+            </tr>
+        </form>
+            <?php
+                
+                }
+            ?>
+        </table>
+        </section>
+
+
+    <section>
+        <h1>Spring favorites</h1>
+        <!-- TABLE CONSTRUCTION -->
+        <table>
+            <tr>
+                <th>Popular books in Spring</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th>Add to Cart</th>
+                
+            </tr>
+            <!-- PHP CODE TO FETCH DATA FROM ROWS -->
+            <?php
+
+                // LOOP TILL END OF DATA
+                while($rows2=$result2->fetch_assoc())
+                {
+                    $_SESSION["SpringFavorites"]=$rows2['SpringFavorites'];
+                    $_SESSION["Price"]=$rows2['Price'];
+                    
+            ?>
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+            <tr>
+                <!-- FETCHING DATA FROM EACH
+                    ROW OF EVERY COLUMN -->
+                <td><input type="text" name="title" value="<?php echo $rows2["SpringFavorites"] ?>" readonly></td>
+                <td><?php echo $rows2['Author_Name'];?></td>
+                <td><input type="text" name="price" value="<?php echo $rows2['Price'] ?>" readonly></td>
+                <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
+                
+            </tr>
+        </form>
+            <?php
+                
+                }
+            ?>
+        </table>
+        </section> 
+
+    <section>
+        <h1>Summer favorites</h1>
+        <!-- TABLE CONSTRUCTION -->
+        <table>
+            <tr>
+                <th>Popular books in Summer</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th>Add to Cart</th>
+                
+            </tr>
+            <!-- PHP CODE TO FETCH DATA FROM ROWS -->
+            <?php
+
+                // LOOP TILL END OF DATA
+                while($rows3=$result3->fetch_assoc())
+                {
+                    $_SESSION["SummerFavorites"]=$rows3['SummerFavorites'];
+                    $_SESSION["Price"]=$rows3['Price'];
+                    
+            ?>
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+            <tr>
+                <!-- FETCHING DATA FROM EACH
+                    ROW OF EVERY COLUMN -->
+                <td><input type="text" name="title" value="<?php echo $rows3["SummerFavorites"] ?>" readonly></td>
+                <td><?php echo $rows3['Author_Name'];?></td>
+                <td><input type="text" name="price" value="<?php echo $rows3['Price'] ?>" readonly></td>
+                <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
+                
+            </tr>
+        </form>
+            <?php
+                
+                }
+            ?>
+        </table>
+        </section>
+
+    <section>
+        <h1>Autumn favorites</h1>
+        <!-- TABLE CONSTRUCTION -->
+        <table>
+            <tr>
+                <th>Popular books in Autumn</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th>Add to Cart</th>
+                
+            </tr>
+            <!-- PHP CODE TO FETCH DATA FROM ROWS -->
+            <?php
+
+                // LOOP TILL END OF DATA
+                while($rows4=$result4->fetch_assoc())
+                {
+                    $_SESSION["AutumnFavorites"]=$rows4['AutumnFavorites'];
+                    $_SESSION["Price"]=$rows4['Price'];
+                    
+            ?>
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+            <tr>
+                <!-- FETCHING DATA FROM EACH
+                    ROW OF EVERY COLUMN -->
+                <td><input type="text" name="title" value="<?php echo $rows4["AutumnFavorites"] ?>" readonly></td>
+                <td><?php echo $rows4['Author_Name'];?></td>
+                <td><input type="text" name="price" value="<?php echo $rows4['Price'] ?>" readonly></td>
                 <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
                 
             </tr>
