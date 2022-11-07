@@ -6,7 +6,7 @@ session_start();
 $user = 'admin';
 $password = 'Fit4M0Re!';
  
-// Database name is geeksforgeeks
+
 $database = 'BookStore';
 // Server is localhost with
 // port number 3306
@@ -48,7 +48,6 @@ if(isset($_POST['remove']))
   $result = $mysqli->query($sql);
 
 }
-
 
 ?>
 
