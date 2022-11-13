@@ -25,7 +25,7 @@ if ($mysqli->connect_error) {
 
 if (isset($_POST['Fiction'])) {
 // SQL query to select data from database
-$sql = "SELECT Book.title AS Popular_In_Fiction, Author.name AS Author_Name,COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE Info.genre = 'Fiction' GROUP BY Popular_In_Fiction ORDER BY COUNT(*) DESC";
+$sql = "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS Popular_In_Fiction, Author.name AS Author_Name,COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE Info.genre = 'Fiction' GROUP BY Popular_In_Fiction ORDER BY COUNT(*) DESC";
 $result = $mysqli->query($sql);
 $mysqli->close();
 
@@ -35,9 +35,11 @@ if(isset($_POST['add'])){
                 $_SESSION['title']=$_POST['title'];
                 $_SESSION['price']=$_POST['price'];
                 $_SESSION['quantity']=$_POST['quantity'];
-                $sql = "SELECT Book.title AS Popular_In_Fiction, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE Info.genre = 'Fiction' GROUP BY Popular_In_Fiction ORDER BY COUNT(*) DESC";
+                $_SESSION['bid']=$_POST['bid'];
+                $_SESSION['Format']=$_POST['Format'];
+                $sql = "SELECT Book.bid as bid,Edition.Format as Format,Book.title AS Popular_In_Fiction, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE Info.genre = 'Fiction' GROUP BY Popular_In_Fiction ORDER BY COUNT(*) DESC";
                 
-                $sql2="INSERT INTO Cart(email,quantity,price,book_title)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."')";
+                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
                 if(mysqli_query($link, $sql2)){
                 
                 } else{
@@ -104,7 +106,9 @@ if(isset($_POST['add'])){
         <table>
             <tr>
                 <th>Popular books in Fiction</th>
+                <th>Book ID</th>
                 <th>Author</th>
+                <th>Format</th>
                 <th>Price</th>
                 <th>Add to Cart</th>
                 
@@ -122,7 +126,9 @@ if(isset($_POST['add'])){
                 <!-- FETCHING DATA FROM EACH
                     ROW OF EVERY COLUMN -->
                 <td><input type="text" name="title" value="<?php echo $rows["Popular_In_Fiction"] ?>" readonly></td>
+                <td><input type="text" name="bid" value="<?php echo $rows['bid'];?>" readonly></td>
                 <td><?php echo $rows['Author_Name'];?></td>
+                <td><input type="text" name="Format" value="<?php echo $rows['Format'];?>" readonly></td>
                 <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
                 <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
                 
