@@ -113,6 +113,12 @@ ORDER BY COUNT(*) DESC";
 </head>
  
 <body>
+    <form action="display_orders.php" method="post" accept-charset="utf-8" class="custom-add2cart">
+   <div class="add-button-wrapper widget-fingerprint-product-add-button">
+       <input type="submit" name="display_orders"class="btn regular-button regular-main-button add2cart submit" value="Display your orders">
+           
+   </div>
+</form>
     <form action="cart.php" method="post" accept-charset="utf-8" class="custom-add2cart">
    <div class="add-button-wrapper widget-fingerprint-product-add-button">
        <input type="submit" name="display_cart"class="btn regular-button regular-main-button add2cart submit" value="Display cart">

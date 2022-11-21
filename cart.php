@@ -53,6 +53,7 @@ if(isset($_POST['payment']))
     $sql0="UPDATE Cart SET tid='$tid' WHERE email='aallen@example.net'";
     $sql_total="UPDATE Cart SET total_price='".$_SESSION['total']."' where email='aallen@example.net'";
     $sql="INSERT INTO Purchase_history(email,quantity,price,book_title,tid,total_price) SELECT email,quantity,price,book_title,tid,total_price FROM Cart";
+    $sql1="INSERT INTO Transaction (tid,timestamp,email) values ('$tid','$date','aallen@example.net')";
     $sql2="DELETE FROM Cart where email='aallen@example.net'";
     $sql3 = "SELECT * FROM Cart where email='aallen@example.net' ";
         
@@ -67,6 +68,7 @@ if(isset($_POST['payment']))
                 } else{
                 echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
                 }
+    $res=$mysqli->query($sql1);
     $result4=$mysqli->query($sql2);
     $result = $mysqli->query($sql3);
  
