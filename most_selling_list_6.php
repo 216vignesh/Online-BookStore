@@ -25,7 +25,7 @@ if ($mysqli->connect_error) {
 
 if (isset($_POST['Memoir'])) {
 // SQL query to select data from database
-$sql = "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS Popular_In_Memoir, Author.name AS Author_Name,COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE Info.genre = 'Memoir' GROUP BY Popular_In_Memoir ORDER BY COUNT(*) DESC";
+$sql = "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS Popular_In_Memoir, Author.name AS Author_Name,COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price, RATING_VIEWS.Rating AS Rating FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid WHERE Info.genre = 'Memoir' GROUP BY Popular_In_Memoir ORDER BY COUNT(*) DESC";
 $result = $mysqli->query($sql);
 $mysqli->close();
 
@@ -37,9 +37,11 @@ if(isset($_POST['add'])){
                 $_SESSION['quantity']=$_POST['quantity'];
                 $_SESSION['bid']=$_POST['bid'];
                 $_SESSION['Format']=$_POST['Format'];
-                $sql = "SELECT Book.bid as bid,Edition.Format as Format,Book.title AS Popular_In_Memoir, Author.name AS Author_Name,COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE Info.genre = 'Memoir' GROUP BY Popular_In_Memoir ORDER BY COUNT(*) DESC";
+                $_SESSION['Rating']=$_POST['Rating'];
+
+                $sql = "SELECT Book.bid as bid,Edition.Format as Format,Book.title AS Popular_In_Memoir, Author.name AS Author_Name,COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price, RATING_VIEWS.Rating AS Rating FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid WHERE Info.genre = 'Memoir' GROUP BY Popular_In_Memoir ORDER BY COUNT(*) DESC";
                 
-                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
+                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
                 if(mysqli_query($link, $sql2)){
                 
                 } else{
@@ -117,6 +119,7 @@ if(isset($_POST['add'])){
                  <th>Format</th>
                  <th>Price</th>
                  <th>Add to Cart</th>
+                 <th>Ratings</th>
                 
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
@@ -126,6 +129,7 @@ if(isset($_POST['add'])){
                 {
                     $_SESSION["Popular_In_Memoir"]=$rows['Popular_In_Memoir'];
                     $_SESSION["Price"]=$rows['Price'];
+                    $_SESSION["Rating"]=$rows['Rating']
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <tr>
@@ -137,6 +141,14 @@ if(isset($_POST['add'])){
                  <td><input type="text" name="Format" value="<?php echo $rows['Format'];?>" readonly></td>
                 <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
                 <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
+                <td><input type="text" name="Rating" value="<?php echo round($rows['Rating'],2);?>" readonly>
+                </form>
+
+                <form action="rating.php" method="POST">
+                    <input type="text" name="bid" value="<?php echo $rows['bid'];?>" hidden>
+
+                <input type="submit" name="add1" value="Submit a Review"></td>
+                </form>
                 
             </tr>
         </form>

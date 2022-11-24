@@ -25,12 +25,13 @@ if ($mysqli->connect_error) {
 
 if (isset($_POST['Romance'])) {
 // SQL query to select data from database
-$sql = "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS Popular_In_Romance, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price
+$sql = "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS Popular_In_Romance, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price, RATING_VIEWS.Rating AS Rating
 FROM Book
 INNER JOIN Edition ON Edition.bid=Book.bid
 INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn
 INNER JOIN Info ON Info.bid=Book.bid
 INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid
+INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid
 WHERE Info.genre = 'Romance'
 GROUP BY Popular_In_Romance
 ORDER BY COUNT(*) DESC";
@@ -46,17 +47,20 @@ if(isset($_POST['add'])){
                 $_SESSION['quantity']=$_POST['quantity'];
                 $_SESSION['bid']=$_POST['bid'];
                 $_SESSION['Format']=$_POST['Format'];
-                $sql = "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS Popular_In_Romance, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price
+                $_SESSION['Rating']=$_POST['Rating'];
+
+                $sql = "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS Popular_In_Romance, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price, RATING_VIEWS.Rating AS Rating
 FROM Book
 INNER JOIN Edition ON Edition.bid=Book.bid
 INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn
 INNER JOIN Info ON Info.bid=Book.bid
 INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid
+INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid
 WHERE Info.genre = 'Romance'
 GROUP BY Popular_In_Romance
 ORDER BY COUNT(*) DESC";
                 
-                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
+                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
                 if(mysqli_query($link, $sql2)){
                 
                 } else{
@@ -136,6 +140,7 @@ ORDER BY COUNT(*) DESC";
                 <th>Format</th>
                 <th>Price</th>
                 <th>Add to Cart</th>
+                <th>Ratings</th>
                 
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
@@ -146,6 +151,7 @@ ORDER BY COUNT(*) DESC";
                 {
                     $_SESSION["Popular_In_Romance"]=$rows['Popular_In_Romance'];
                     $_SESSION["Price"]=$rows['Price'];
+                    $_SESSION["Rating"]=$rows['Rating']
                     
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
@@ -158,6 +164,14 @@ ORDER BY COUNT(*) DESC";
                 <td><input type="text" name="Format" value="<?php echo $rows['Format'];?>" readonly></td>
                 <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
                 <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
+                <td><input type="text" name="Rating" value="<?php echo round($rows['Rating'],2);?>" readonly>
+                </form>
+
+                <form action="rating.php" method="POST">
+                    <input type="text" name="bid" value="<?php echo $rows['bid'];?>" hidden>
+
+                <input type="submit" name="add1" value="Submit a Review"></td>
+                </form>
                 
             </tr>
         </form>
