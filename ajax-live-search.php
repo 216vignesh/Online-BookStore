@@ -16,7 +16,7 @@ $link = mysqli_connect($servername, $user, $password, $database);
   {
     $_SESSION['Title']=addslashes($_POST['book']);
     // $_SESSION['title']=$_POST['title'];
-    $sql = "SELECT Book.bid as bid, Book.title AS Title, Author.name AS Author_Name, Edition.price AS Price, Edition.Format as Format FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid where Book.title='".$_SESSION['Title']."'";
+    $sql = "SELECT Book.bid as bid, Book.title AS Title, Author.name AS Author_Name, Edition.price AS Price, Edition.Format as Format, RATING_VIEWS.Rating AS Rating FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid where Book.title='".$_SESSION['Title']."'";
     if(mysqli_query($link, $sql)){
                 
                 } else{
@@ -32,9 +32,11 @@ $link = mysqli_connect($servername, $user, $password, $database);
                 $_SESSION['quantity']=addslashes($_POST['quantity']);
                 $_SESSION['bid']=addslashes($_POST['bid']);
                 $_SESSION['Format']=addslashes($_POST['Format']);
-                $sql = "SELECT Book.bid as bid,Book.title AS Title, Author.name AS Author_Name, Edition.price AS Price, Edition.Format as Format FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid where Book.title='".$_SESSION['title']."'";
+                $_SESSION['Rating']=$_POST['Rating'];
+
+                $sql = "SELECT Book.bid as bid,Book.title AS Title, Author.name AS Author_Name, Edition.price AS Price, Edition.Format as Format, RATING_VIEWS.Rating AS Rating FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid where Book.title='".$_SESSION['title']."'";
                 
-                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
+                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
                 if(mysqli_query($link, $sql2)){
                 
                 } else{
@@ -46,7 +48,7 @@ $link = mysqli_connect($servername, $user, $password, $database);
                 }
  
   if (isset($_POST['query'])) {
-      $query = "SELECT Book.bid as bid,Book.title AS Title, Author.name AS Author_Name, Edition.price AS Price FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid where Title LIKE '%{$_POST['query']}%'";
+      $query = "SELECT Book.bid as bid,Book.title AS Title, Author.name AS Author_Name, Edition.price AS Price , RATING_VIEWS.Rating AS Rating FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid where Title LIKE '%{$_POST['query']}%'";
       $result = mysqli_query($connection, $query);
     if (mysqli_num_rows($result) > 0) {
         while ($res = mysqli_fetch_array($result)) {
@@ -136,6 +138,7 @@ $link = mysqli_connect($servername, $user, $password, $database);
                 <th>Price</th>
                 <th>Format type</th>
                 <th>Add to Cart</th>
+                <th>Ratings</th>
                 
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
@@ -158,6 +161,14 @@ $link = mysqli_connect($servername, $user, $password, $database);
                 <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
                 <td><input type="text" name="format" value="<?php echo $rows['Format'] ?>" readonly></td>
                 <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
+                <td><input type="text" name="Rating" value="<?php echo round($rows['Rating'],2);?>" readonly>
+                </form>
+
+                <form action="rating.php" method="POST">
+                    <input type="text" name="bid" value="<?php echo $rows['bid'];?>" hidden>
+
+                <input type="submit" name="add1" value="Submit a Review"></td>
+                </form>
                 
             </tr>
         </form>

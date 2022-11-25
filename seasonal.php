@@ -25,16 +25,16 @@ if ($mysqli->connect_error) {
 
 
 // SQL query to select data from database
-$sql = "SELECT Book.bid as bid, Edition.Format as Format, Book.title AS WinterFavorites, Author.name AS Author_Name,Edition.price AS Price FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=12 OR MONTH(sale_date)=1 OR MONTH(sale_date)=2 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
+$sql = "SELECT Book.bid as bid, Edition.Format as Format, Book.title AS WinterFavorites, Author.name AS Author_Name,Edition.price AS Price, RATING_VIEWS.Rating AS Rating FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid WHERE MONTH(sale_date)=12 OR MONTH(sale_date)=1 OR MONTH(sale_date)=2 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
 $result = $mysqli->query($sql);
 
-$sql2= "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS SpringFavorites, Author.name AS Author_Name,Edition.price AS Price FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=3 OR MONTH(sale_date)=4 OR MONTH(sale_date)=5 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
+$sql2= "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS SpringFavorites, Author.name AS Author_Name,Edition.price AS Price, RATING_VIEWS.Rating AS Rating FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid WHERE MONTH(sale_date)=3 OR MONTH(sale_date)=4 OR MONTH(sale_date)=5 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
 $result2 = $mysqli->query($sql2);
 
-$sql3="SELECT Book.bid as bid, Edition.Format as Format,Book.title AS SummerFavorites, Author.name AS Author_Name, Edition.price AS Price  FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=6 OR MONTH(sale_date)=7 OR MONTH(sale_date)=8 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
+$sql3="SELECT Book.bid as bid, Edition.Format as Format,Book.title AS SummerFavorites, Author.name AS Author_Name, Edition.price AS Price,RATING_VIEWS.Rating AS Rating FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bidWHERE MONTH(sale_date)=6 OR MONTH(sale_date)=7 OR MONTH(sale_date)=8 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
 $result3 = $mysqli->query($sql3);
 
-$sql4="SELECT Book.bid as bid, Edition.Format as Format, Book.title AS AutumnFavorites, COUNT(*) AS NumberOfUnitsSold, Author.name AS Author_Name, Edition.price AS Price FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=9 OR MONTH(sale_date)=10 OR MONTH(sale_date)=11 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
+$sql4="SELECT Book.bid as bid, Edition.Format as Format, Book.title AS AutumnFavorites, COUNT(*) AS NumberOfUnitsSold, Author.name AS Author_Name, Edition.price AS Price, RATING_VIEWS.Rating AS Rating FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid WHERE MONTH(sale_date)=9 OR MONTH(sale_date)=10 OR MONTH(sale_date)=11 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
 
 $result4 = $mysqli->query($sql4);
 
@@ -49,16 +49,17 @@ if(isset($_POST['add'])){
                 $_SESSION['quantity']=$_POST['quantity'];
                 $_SESSION['bid']=$_POST['bid'];
                 $_SESSION['Format']=$_POST['Format'];
+                $_SESSION['Rating']=$_POST['Rating'];
 
-                $sql = "SELECT Book.bid as bid, Edition.Format as Format, Book.title AS WinterFavorites, Author.name AS Author_Name,Edition.price AS Price FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=12 OR MONTH(sale_date)=1 OR MONTH(sale_date)=2 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";;
+                $sql = "SELECT Book.bid as bid, Edition.Format as Format, Book.title AS WinterFavorites, Author.name AS Author_Name,Edition.price AS Price, RATING_VIEWS.Rating AS Rating FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid WHERE MONTH(sale_date)=12 OR MONTH(sale_date)=1 OR MONTH(sale_date)=2 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
 
-                $sql2= "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS SpringFavorites, Author.name AS Author_Name,Edition.price AS Price FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=3 OR MONTH(sale_date)=4 OR MONTH(sale_date)=5 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
+                $sql2= "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS SpringFavorites, Author.name AS Author_Name,Edition.price AS Price, RATING_VIEWS.Rating AS Rating FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid WHERE MONTH(sale_date)=3 OR MONTH(sale_date)=4 OR MONTH(sale_date)=5 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
 
-                $sql3="SELECT Book.bid as bid, Edition.Format as Format,Book.title AS SummerFavorites, Author.name AS Author_Name, Edition.price AS Price  FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=6 OR MONTH(sale_date)=7 OR MONTH(sale_date)=8 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
+                $sql3="SELECT Book.bid as bid, Edition.Format as Format,Book.title AS SummerFavorites, Author.name AS Author_Name, Edition.price AS Price,RATING_VIEWS.Rating AS Rating FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bidWHERE MONTH(sale_date)=6 OR MONTH(sale_date)=7 OR MONTH(sale_date)=8 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
 
-                $sql4="SELECT Book.bid as bid, Edition.Format as Format, Book.title AS AutumnFavorites, COUNT(*) AS NumberOfUnitsSold, Author.name AS Author_Name, Edition.price AS Price FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid WHERE MONTH(sale_date)=9 OR MONTH(sale_date)=10 OR MONTH(sale_date)=11 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
+                $sql4="SELECT Book.bid as bid, Edition.Format as Format, Book.title AS AutumnFavorites, COUNT(*) AS NumberOfUnitsSold, Author.name AS Author_Name, Edition.price AS Price, RATING_VIEWS.Rating AS Rating FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid WHERE MONTH(sale_date)=9 OR MONTH(sale_date)=10 OR MONTH(sale_date)=11 GROUP BY title ORDER BY COUNT(*) DESC LIMIT 10";
                 
-                $sql5="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
+                $sql5="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
                 if(mysqli_query($link, $sql5)){
                 
                 } else{
@@ -140,6 +141,7 @@ if(isset($_POST['add'])){
                 <th>Format</th>
                 <th>Price</th>
                 <th>Add to Cart</th>
+                <th>Ratings</th>
                 
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
@@ -150,6 +152,7 @@ if(isset($_POST['add'])){
                 {
                     $_SESSION["WinterFavorites"]=$rows['WinterFavorites'];
                     $_SESSION["Price"]=$rows['Price'];
+                    $_SESSION["Rating"]=$rows['Rating']
                     
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
@@ -162,6 +165,14 @@ if(isset($_POST['add'])){
                 <td><input type="text" name="Format" value="<?php echo $rows['Format'];?>" readonly></td>
                 <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
                 <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
+                <td><input type="text" name="Rating" value="<?php echo round($rows['Rating'],2);?>" readonly>
+                </form>
+
+                <form action="rating.php" method="POST">
+                    <input type="text" name="bid" value="<?php echo $rows['bid'];?>" hidden>
+
+                <input type="submit" name="add1" value="Submit a Review"></td>
+                </form>
                 
             </tr>
         </form>
@@ -184,6 +195,7 @@ if(isset($_POST['add'])){
                 <th>Format</th>
                 <th>Price</th>
                 <th>Add to Cart</th>
+                <th>Ratings</th>
                 
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
@@ -194,6 +206,7 @@ if(isset($_POST['add'])){
                 {
                     $_SESSION["SpringFavorites"]=$rows2['SpringFavorites'];
                     $_SESSION["Price"]=$rows2['Price'];
+                    $_SESSION["Rating"]=$rows['Rating']
                     
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
@@ -206,6 +219,14 @@ if(isset($_POST['add'])){
                 <td><input type="text" name="Format" value="<?php echo $rows2['Format'];?>" readonly></td>
                 <td><input type="text" name="price" value="<?php echo $rows2['Price'] ?>" readonly></td>
                 <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
+                <td><input type="text" name="Rating" value="<?php echo round($rows['Rating'],2);?>" readonly>
+                </form>
+
+                <form action="rating.php" method="POST">
+                    <input type="text" name="bid" value="<?php echo $rows['bid'];?>" hidden>
+
+                <input type="submit" name="add1" value="Submit a Review"></td>
+                </form>
                 
             </tr>
         </form>
