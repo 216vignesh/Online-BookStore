@@ -100,6 +100,15 @@ if(!$_SESSION['email'])
 										<!-- <h1><a href="logout.php">Logout here</a> </h1>  -->
                                  <div class="collapse navbar-collapse" id="navbarsExample04">
                                     <ul class="navbar-nav mr-auto">
+                                    <div class="collapse navbar-collapse" id="navbarsExample04">
+                                    <ul class="navbar-nav mr-auto">
+                                       <h1>Welcome <?php  
+                                          echo $_SESSION['email'];  
+                                       ?> </h1><br>  
+                                        
+
+
+
                                        <li class="nav-item active">
                                           <a class="nav-link" href="index.html">Home</a>
                                        </li>
@@ -107,7 +116,7 @@ if(!$_SESSION['email'])
                                           <a class="nav-link" href="about.html">About</a>
                                        </li>
                                        <li class="nav-item">
-                                          <a class="nav-link" href="login.html">Login</a>
+                                          <a class="nav-link" href="index.html">Logout</a>
                                        </li>
                                        <li class="nav-item">
                                           <a class="nav-link" href="register.html">Register</a>
