@@ -55,6 +55,7 @@ if(isset($_POST['add'])){
                 $_SESSION['quantity']=$_POST['quantity'];
                 $_SESSION['bid']=$_POST['bid'];
                 $_SESSION['Format']=$_POST['Format'];
+                $_SESSION['Rating']=$_POST['Rating'];
                 $sql = "SELECT Book.bid as bid,Book.title AS Popular_In_Young_Adult, Edition.Format as Format, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price, RATING_VIEWS.Rating AS Rating FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid 
                     INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid WHERE Info.genre = 'Young Adult' GROUP BY Popular_In_Young_Adult ORDER BY COUNT(*) DESC";
                 

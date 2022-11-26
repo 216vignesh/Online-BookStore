@@ -60,7 +60,7 @@ WHERE Info.genre = 'Romance'
 GROUP BY Popular_In_Romance
 ORDER BY COUNT(*) DESC";
                 
-                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
+                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format,Rating)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
                 if(mysqli_query($link, $sql2)){
                 
                 } else{

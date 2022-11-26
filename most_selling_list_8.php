@@ -43,7 +43,7 @@ if(isset($_POST['add'])){
 
                 $sql = "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS Popular_In_Children, Author.name AS Author_Name,COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price RATING_VIEWS.Rating AS Rating FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid WHERE Info.genre = 'Childrens' GROUP BY Popular_In_Children ORDER BY COUNT(*) DESC";
                 
-                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
+                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format,Rating)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
                 if(mysqli_query($link, $sql2)){
                 
                 } else{

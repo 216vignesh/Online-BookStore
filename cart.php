@@ -42,7 +42,14 @@ if(isset($_POST['payment']))
     $insert_isbn="INSERT INTO Sales_Report (sale_date,isbn,discount,itemid,orderid) VALUES('$date2','".$rows_isbn['isbn']."','0','$itemid','$tid')";
 
     if(mysqli_query($link, $insert_isbn)){
-                echo "Payment Successful!! Your order will be delivered soon to your shipping address";
+                
+                // header("Location: http://localhost/Online-BookStore/index.html");
+                // echo '<script>alert("Payment successful!!! Your order will be delivered soon")</script>';
+        echo "<script>alert('Payment successful!!! Your order will be delivered soon');
+        window.location.href='http://localhost/Online-BookStore/index.html'
+        </script>";
+                
+
                 } else{
                 echo "ERROR: Could not able to execute $insert_isbn. " . mysqli_error($link);
                 }  
