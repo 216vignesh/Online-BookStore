@@ -97,10 +97,10 @@ if(!$_SESSION['email'])
                                  <div class="collapse navbar-collapse" id="navbarsExample04">
                                     <ul class="navbar-nav mr-auto">
                                     	<h1>Welcome</h1><br>  
-										<?php  
+										 <?php  
 										echo $_SESSION['email'];  
 										?>  
-										<h1><a href="logout.php">Logout here</a> </h1>
+										<h1><a href="logout.php">Logout here</a> </h1> 
                                        <li class="nav-item active">
                                           <a class="nav-link" href="index.html">Home</a>
                                        </li>
