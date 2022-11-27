@@ -142,7 +142,7 @@ if(isset($_POST['add'])){
                 <td><?php echo $rows['Author_name'];?></td>
                 <td><input type="text" name="Format" value="<?php echo $rows['Format'];?>" readonly></td>
                 <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
-                <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
+                <td><input type="number" name="quantity" min="1" max="100"><input type="submit" name="add" value="Add to Cart"></td>
                 <td><input type="text" name="Rating" value="<?php echo round($rows['Rating'],2);?>" readonly>
             <!--</tr>-->
         </form>
