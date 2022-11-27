@@ -39,9 +39,14 @@ if(isset($_POST['add'])){
                 $_SESSION['quantity']=$_POST['quantity'];
                 $_SESSION['bid']=$_POST['bid'];
                 $_SESSION['Format']=$_POST['Format'];
+                $_SESSION['Rating']=$_POST['Rating'];
+
                 $sql = "CALL getPopularBookByGenre('Childrens')";
                 
-                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
+                $sql2 = "
+                INSERT INTO Cart(email,quantity,price,book_title,bid,Format,Rating)
+                Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
+
                 if(mysqli_query($link, $sql2)){
                 
                 } else{
@@ -114,6 +119,8 @@ if(isset($_POST['add'])){
                 <th>Format</th>
                 <th>Price</th>
                 <th>Add to Cart</th>
+                <th>Ratings</th>
+
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
             <?php
@@ -122,6 +129,7 @@ if(isset($_POST['add'])){
                 {
                     $_SESSION["Popular_In_Children"]=$rows['Book_Title'];
                     $_SESSION["Price"]=$rows['Price'];
+                    $_SESSION["Rating"]=$rows['Rating'];
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <tr>
@@ -133,8 +141,16 @@ if(isset($_POST['add'])){
                 <td><input type="text" name="Format" value="<?php echo $rows['Format'];?>" readonly></td>
                 <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
                 <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
+                <td><input type="text" name="Rating" value="<?php echo round($rows['Rating'],2);?>" readonly>
+            <!--</tr>-->
+        </form>
+        <form action="rating.php" method="POST">
+                <input type="text" name="bid" value="<?php echo $rows['BookID'];?>" hidden>
+
+                <input type="submit" name="add1" value="Submit a Review"></td>
+        </form>
                 
-            </tr>
+        </tr>
         </form>
             <?php
                 }
