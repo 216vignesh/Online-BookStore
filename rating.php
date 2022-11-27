@@ -62,7 +62,7 @@ if(isset($_POST['add'])) {
 <form action="rating.php" method="post">
 <input type="text" class="form-control" name="email" id="email" placeholder="Email Id"><br>
 <input type="text" class="form-control" name="email" id="email" value="<?php echo $_SESSION['bid'];?>"><br>
-<input type='number' placeholder="Enter the rating out of 5..." name="Rating" required><br><br>
+<input type='number' placeholder="Enter the rating out of 5..." name="Rating" required min="1" max="5"><br><br>
 
 <p><input type='submit' name="add" value='Submit Rating'></p>
 </form>
