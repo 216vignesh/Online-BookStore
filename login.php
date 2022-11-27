@@ -186,11 +186,13 @@ if(isset($_POST['login']))
 {  
     $user_email=$_POST['email'];  
     $user_pass=$_POST['pass'];  
-  
-    $check_user="select * from Customer WHERE email='$user_email'AND password='$user_pass'";  
-  
-    $run=mysqli_query($dbcon,$check_user);  
-  
+      
+    if($user_email == 'admin@admin.com' && $user_pass == 'admin'){
+      echo "<script>window.open('adminOptions.html','_self')</script>";
+    }else{
+      $check_user="select * from Customer WHERE email='$user_email'AND password='$user_pass'";  
+      echo "<script>window.open('index1.php','_self')</script>";
+      $run=mysqli_query($dbcon,$check_user);  
     if(mysqli_num_rows($run))  
     {  
         echo "<script>window.open('index1.php','_self')</script>";  
@@ -202,7 +204,7 @@ if(isset($_POST['login']))
     else  
     {  
       echo "<script>alert('Email or password is incorrect!')</script>";  
-    }  
+    }  }
 }  
 ?>  
 

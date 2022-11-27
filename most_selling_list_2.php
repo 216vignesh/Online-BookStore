@@ -25,27 +25,22 @@ if ($mysqli->connect_error) {
 
 if (isset($_POST['Young_Adult'])) {
 // SQL query to select data from database
-$sql = "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS Popular_In_Young_Adult, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price, RATING_VIEWS.Rating AS Rating
+/*$sql = "SELECT Book.bid as bid, Edition.Format as Format,Book.title AS Popular_In_Young_Adult, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price
 FROM Book
 INNER JOIN Edition ON Edition.bid=Book.bid
 INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn
 INNER JOIN Info ON Info.bid=Book.bid
 INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid
-INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid
 WHERE Info.genre = 'Young Adult'
 GROUP BY Popular_In_Young_Adult
-ORDER BY COUNT(*) DESC";
+ORDER BY COUNT(*) DESC";*/
 
-
+$sql = "CALL getPopularBookByGenre('Young Adult');";
 
 $result = $mysqli->query($sql);
-
-#$sql1= "SELECT bid, title AS Popular_In_Young_Adult, Rating FROM RATING_VIEWS where title IN (SELECT Book.title FROM Book,Info WHERE Info.genre='SciFi/Fantasy')"
-
-
-
-#$result1 = $mysqli->query($sql1);  
 $mysqli->close();
+
+
 }
 
 if(isset($_POST['add'])){
@@ -55,11 +50,9 @@ if(isset($_POST['add'])){
                 $_SESSION['quantity']=$_POST['quantity'];
                 $_SESSION['bid']=$_POST['bid'];
                 $_SESSION['Format']=$_POST['Format'];
-                $_SESSION['Rating']=$_POST['Rating'];
-                $sql = "SELECT Book.bid as bid,Book.title AS Popular_In_Young_Adult, Edition.Format as Format, Author.name AS Author_Name, COUNT(*) AS NumberOfCopiesSold,Edition.price AS Price, RATING_VIEWS.Rating AS Rating FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Sales_Report ON Sales_Report.isbn=Edition.isbn INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid 
-                    INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid WHERE Info.genre = 'Young Adult' GROUP BY Popular_In_Young_Adult ORDER BY COUNT(*) DESC";
+                $sql = "CALL getPopularBookByGenre('Young Adult');";
                 
-                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format,Rating)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
+                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
                 if(mysqli_query($link, $sql2)){
                 
                 } else{
@@ -116,16 +109,9 @@ if(isset($_POST['add'])){
 </head>
  
 <body>
-    <form action="display_orders.php" method="post" accept-charset="utf-8" class="custom-add2cart">
-   <div class="add-button-wrapper widget-fingerprint-product-add-button">
-       <input type="submit" name="display_orders"class="btn regular-button regular-main-button add2cart submit" value="Display your orders">
-           
-   </div>
-</form>
     <form action="cart.php" method="post" accept-charset="utf-8" class="custom-add2cart">
    <div class="add-button-wrapper widget-fingerprint-product-add-button">
-       <input type="submit" name="display_cart"class="btn regular-button regular-main-button add2cart submit" value="Display cart">
-           
+       <input type="submit" name="display_cart"class="btn regular-button regular-main-button add2cart submit" value="Display cart">   
    </div>
 </form>
     <section>
@@ -133,13 +119,12 @@ if(isset($_POST['add'])){
         <!-- TABLE CONSTRUCTION -->
         <table>
             <tr>
-                <th>Popular books in Sci-Fi</th>
+                <th>Popular books in Young Adult</th>
                 <th>Book ID</th>
                 <th>Author</th>
                 <th>Format</th>
                 <th>Price</th>
                 <th>Add to Cart</th>
-                <th>Ratings</th>
                 
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
@@ -148,29 +133,20 @@ if(isset($_POST['add'])){
                 // LOOP TILL END OF DATA
                 while($rows=$result->fetch_assoc())
                 {
-                    $_SESSION["Popular_In_Young_Adult"]=$rows['Popular_In_Young_Adult'];
+                    $_SESSION["Popular_In_Young_Adult"]=$rows['Book_Title'];
                     $_SESSION["Price"]=$rows['Price'];
-                    $_SESSION["Rating"]=$rows['Rating'];
                     
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <tr>
                 <!-- FETCHING DATA FROM EACH
                     ROW OF EVERY COLUMN -->
-                <td><input type="text" name="title" value="<?php echo $rows["Popular_In_Young_Adult"] ?>" readonly></td>
-                <td><input type="text" name="bid" value="<?php echo $rows['bid'];?>" readonly></td>
-                <td><?php echo $rows['Author_Name'];?></td>
+                <td><input type="text" name="title" value="<?php echo $rows["Book_Title"] ?>" readonly></td>
+                <td><input type="text" name="bid" value="<?php echo $rows['BookID'];?>" readonly></td>
+                <td><?php echo $rows['Author_name'];?></td>
                 <td><input type="text" name="Format" value="<?php echo $rows['Format'];?>" readonly></td>
                 <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
                 <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
-                <td><input type="text" name="Rating" value="<?php echo round($rows['Rating'],2);?>" readonly>
-                </form>
-
-                <form action="rating.php" method="POST">
-                    <input type="text" name="bid" value="<?php echo $rows['bid'];?>" hidden>
-
-                <input type="submit" name="add1" value="Submit a Review"></td>
-                </form>
                 
             </tr>
         </form>

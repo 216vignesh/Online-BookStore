@@ -24,33 +24,23 @@ if ($mysqli->connect_error) {
     $mysqli->connect_error);
 }
 
-if (isset($_POST['Children'])) {
+
 // SQL query to select data from database
-$sql = "CALL getPopularBookByGenre('Childrens')";
+$sql = "SELECT Publisher_book.Publisher, author_writes_book_won_awards.Author,
+            author_writes_book_won_awards.Book ,author_writes_book_won_awards.Award
+        FROM author_writes_book_won_awards
+        INNER JOIN Publisher_book ON Publisher_book.Book = author_writes_book_won_awards.Book
+        ORDER BY Publisher";
+
+$result = $mysqli->query($sql);
+
+if(mysqli_query($link, $sql)){
+                
+} else{
+echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);}                 
+                
 $result = $mysqli->query($sql);
 $mysqli->close();
-
-
-}
-
-if(isset($_POST['add'])){
-                $_SESSION['title']=$_POST['title'];
-                $_SESSION['price']=$_POST['price'];
-                $_SESSION['quantity']=$_POST['quantity'];
-                $_SESSION['bid']=$_POST['bid'];
-                $_SESSION['Format']=$_POST['Format'];
-                $sql = "CALL getPopularBookByGenre('Childrens')";
-                
-                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
-                if(mysqli_query($link, $sql2)){
-                
-                } else{
-                echo "ERROR: Could not able to execute $sql2. " . mysqli_error($link);
-                }                 
-                
-                $result = $mysqli->query($sql);
-                $mysqli->close();
-                }
 
 ?>
 
@@ -104,35 +94,31 @@ if(isset($_POST['add'])){
    </div>
 </form>
     <section>
-        <h1>Children Popular books</h1>
+        <h1>Publishing Housese with Award Winning Books</h1>
         <!-- TABLE CONSTRUCTION -->
         <table>
             <tr>
-                <th>Popular books in Children</th>
-                <th>Book ID</th>
+                <!--Publisher_book.Publisher, author_writes_book_won_awards.Author,
+            author_writes_book_won_awards.Book ,author_writes_book_won_awards.Award-->
+                <th>Publisher</th>
                 <th>Author</th>
-                <th>Format</th>
-                <th>Price</th>
-                <th>Add to Cart</th>
+                <th>Book</th>
+                <th>Award</th>
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
             <?php
                 // LOOP TILL END OF DATA
                 while($rows=$result->fetch_assoc())
                 {
-                    $_SESSION["Popular_In_Children"]=$rows['Book_Title'];
-                    $_SESSION["Price"]=$rows['Price'];
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <tr>
                 <!-- FETCHING DATA FROM EACH
                     ROW OF EVERY COLUMN -->
-                <td><input type="text" name="title" value="<?php echo $rows["Book_Title"] ?>" readonly></td>
-                <td><input type="text" name="bid" value="<?php echo $rows['BookID'];?>" readonly></td>
-                <td><?php echo $rows['Author_name'];?></td>
-                <td><input type="text" name="Format" value="<?php echo $rows['Format'];?>" readonly></td>
-                <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
-                <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
+                <td><?php echo $rows['Publisher'];?></td>
+                <td><?php echo $rows['Author'];?></td>
+                <td><?php echo $rows['Book'];?></td>
+                <td><?php echo $rows['Award'];?></td>
                 
             </tr>
         </form>

@@ -24,14 +24,10 @@ if ($mysqli->connect_error) {
     $mysqli->connect_error);
 }
 
-if (isset($_POST['Children'])) {
 // SQL query to select data from database
-$sql = "CALL getPopularBookByGenre('Childrens')";
+//Author_name, Book, Book.bid AS Book_ID, NumberOfCopiesSold, Edition.Format , Edition.price
+$sql = "SELECT * FROM AuthorBookBestSeller;";
 $result = $mysqli->query($sql);
-$mysqli->close();
-
-
-}
 
 if(isset($_POST['add'])){
                 $_SESSION['title']=$_POST['title'];
@@ -39,7 +35,8 @@ if(isset($_POST['add'])){
                 $_SESSION['quantity']=$_POST['quantity'];
                 $_SESSION['bid']=$_POST['bid'];
                 $_SESSION['Format']=$_POST['Format'];
-                $sql = "CALL getPopularBookByGenre('Childrens')";
+                
+                $sql = "SELECT * FROM AuthorBookBestSeller;";
                 
                 $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
                 if(mysqli_query($link, $sql2)){
@@ -104,13 +101,14 @@ if(isset($_POST['add'])){
    </div>
 </form>
     <section>
-        <h1>Children Popular books</h1>
-        <!-- TABLE CONSTRUCTION -->
+        <h1>Best Sellers of Authors</h1>
+        <!-- TABLE CONSTRUCTION Author_name, Book, Book.bid AS Book_ID, NumberOfCopiesSold, Edition.Format , Edition.price-->
         <table>
             <tr>
-                <th>Popular books in Children</th>
-                <th>Book ID</th>
                 <th>Author</th>
+                <th>Book</th>
+                <th>Book ID</th>
+                <th>Number Of Copies Sold</th>
                 <th>Format</th>
                 <th>Price</th>
                 <th>Add to Cart</th>
@@ -120,18 +118,19 @@ if(isset($_POST['add'])){
                 // LOOP TILL END OF DATA
                 while($rows=$result->fetch_assoc())
                 {
-                    $_SESSION["Popular_In_Children"]=$rows['Book_Title'];
-                    $_SESSION["Price"]=$rows['Price'];
+                    $_SESSION["Popular_In_Children"]=$rows['Book'];
+                    $_SESSION["Price"]=$rows['price'];
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <tr>
                 <!-- FETCHING DATA FROM EACH
                     ROW OF EVERY COLUMN -->
-                <td><input type="text" name="title" value="<?php echo $rows["Book_Title"] ?>" readonly></td>
-                <td><input type="text" name="bid" value="<?php echo $rows['BookID'];?>" readonly></td>
-                <td><?php echo $rows['Author_name'];?></td>
+                <td><input type="text" name="author" value="<?php echo $rows['Author_name'] ?>" readonly></td>
+                <td><input type="text" name="title" value="<?php echo $rows['Book'];?>" readonly></td>
+                <td><input type="text" name="bid" value="<?php echo $rows['Book_ID'];?>" readonly></td>
+                <td><?php echo $rows['NumberOfCopiesSold'];?></td>
                 <td><input type="text" name="Format" value="<?php echo $rows['Format'];?>" readonly></td>
-                <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
+                <td><input type="text" name="price" value="<?php echo $rows['price'] ?>" readonly></td>
                 <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
                 
             </tr>

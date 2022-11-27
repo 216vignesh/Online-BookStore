@@ -24,14 +24,17 @@ if ($mysqli->connect_error) {
     $mysqli->connect_error);
 }
 
-if (isset($_POST['Children'])) {
+
 // SQL query to select data from database
-$sql = "CALL getPopularBookByGenre('Childrens')";
+$sql = "SELECT author_writes_book_won_awards.Author, Book.bid, author_writes_book_won_awards.Book, 
+       author_writes_book_won_awards.Award, author_writes_book_won_awards.Year, 
+       Info.genre, Edition.Format as Format, Edition.price AS Price
+        FROM author_writes_book_won_awards
+        INNER JOIN Book ON author_writes_book_won_awards.Book = Book.title
+        INNER JOIN Info ON Info.bid = Book.bid
+        INNER JOIN Edition ON Edition.bid = Book.bid;";
 $result = $mysqli->query($sql);
-$mysqli->close();
 
-
-}
 
 if(isset($_POST['add'])){
                 $_SESSION['title']=$_POST['title'];
@@ -39,7 +42,13 @@ if(isset($_POST['add'])){
                 $_SESSION['quantity']=$_POST['quantity'];
                 $_SESSION['bid']=$_POST['bid'];
                 $_SESSION['Format']=$_POST['Format'];
-                $sql = "CALL getPopularBookByGenre('Childrens')";
+
+                $sql = "SELECT author_writes_book_won_awards.Book, Book.bid, author_writes_book_won_awards.Author,  author_writes_book_won_awards.Award, author_writes_book_won_awards.Year, 
+                    Info.genre, Edition.Format as Format, Edition.price AS Price
+                        FROM author_writes_book_won_awards
+                        INNER JOIN Book ON author_writes_book_won_awards.Book = Book.title
+                        INNER JOIN Info ON Info.bid = Book.bid
+                        INNER JOIN Edition ON Edition.bid = Book.bid;";
                 
                 $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
                 if(mysqli_query($link, $sql2)){
@@ -104,13 +113,18 @@ if(isset($_POST['add'])){
    </div>
 </form>
     <section>
-        <h1>Children Popular books</h1>
+        <h1>Award Winning Books</h1>
         <!-- TABLE CONSTRUCTION -->
         <table>
             <tr>
-                <th>Popular books in Children</th>
+                <!--author_writes_book_won_awards.Book, Book.bid, author_writes_book_won_awards.Author,  author_writes_book_won_awards.Award, author_writes_book_won_awards.Year, 
+                    Info.genre, Edition.Format as Format, Edition.price AS Price-->
+                <th>Book</th>
                 <th>Book ID</th>
                 <th>Author</th>
+                <th>Award</th>
+                <th>Year</th>
+                <th>Genre</th>
                 <th>Format</th>
                 <th>Price</th>
                 <th>Add to Cart</th>
@@ -120,16 +134,19 @@ if(isset($_POST['add'])){
                 // LOOP TILL END OF DATA
                 while($rows=$result->fetch_assoc())
                 {
-                    $_SESSION["Popular_In_Children"]=$rows['Book_Title'];
+                    $_SESSION["Popular_In_Children"]=$rows['Book'];
                     $_SESSION["Price"]=$rows['Price'];
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <tr>
                 <!-- FETCHING DATA FROM EACH
                     ROW OF EVERY COLUMN -->
-                <td><input type="text" name="title" value="<?php echo $rows["Book_Title"] ?>" readonly></td>
-                <td><input type="text" name="bid" value="<?php echo $rows['BookID'];?>" readonly></td>
-                <td><?php echo $rows['Author_name'];?></td>
+                <td><input type="text" name="title" value="<?php echo $rows["Book"] ?>" readonly></td>
+                <td><input type="text" name="bid" value="<?php echo $rows['bid'];?>" readonly></td>
+                <td><?php echo $rows['Author'];?></td>
+                <td><?php echo $rows['Award'];?></td>
+                <td><?php echo $rows['Year'];?></td>
+                <td><?php echo $rows['genre'];?></td>
                 <td><input type="text" name="Format" value="<?php echo $rows['Format'];?>" readonly></td>
                 <td><input type="text" name="price" value="<?php echo $rows['Price'] ?>" readonly></td>
                 <td><input type="number" name="quantity"><input type="submit" name="add" value="Add to Cart"></td>
