@@ -59,7 +59,7 @@ exit();
     $insert_user="INSERT into Customer(email, name, contactno, shippingAdd, password) VALUES ('$user_email', '$user_name', '$user_phone', '$user_add', '$user_pass')";  
     if(mysqli_query($dbcon,$insert_user))  
     {  
-        echo"<script>window.open('welcome.php','_self')</script>";  
+        echo"<script>window.open('login.php','_self')</script>";  
     }  
 } 
 ?>

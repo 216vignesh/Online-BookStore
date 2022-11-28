@@ -1,7 +1,7 @@
 <!-- PHP code to establish connection with the localserver -->
 <?php
 
- 
+ session_start();
 // Username is root
 $user = 'admin';
 $password = 'Fit4M0Re!';
@@ -43,7 +43,7 @@ if(isset($_POST['add'])){
                 
                 $sql2 = "
                 INSERT INTO Cart(email,quantity,price,book_title,bid,Format,Rating)
-                Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
+                Values('".$_SESSION['email']."','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
 
                 if(mysqli_query($link, $sql2)){
                 

@@ -1,3 +1,29 @@
+<?php
+
+session_start();
+// Username is root
+$user = 'admin';
+$password = 'Fit4M0Re!';
+ 
+
+$database = 'BookStore';
+// Server is localhost with
+// port number 3306
+$servername='dbms-project.csddeoelb5pk.us-east-1.rds.amazonaws.com:3306';
+$mysqli = new mysqli($servername, $user,
+                $password, $database);
+$link = mysqli_connect($servername, $user, $password, $database);
+
+
+// Checking for connections
+if ($mysqli->connect_error) {
+    die('Connect Error (' .
+    $mysqli->connect_errno . ') '.
+    $mysqli->connect_error);
+}
+
+
+?>
 
 <html lang="en">
    <head>

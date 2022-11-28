@@ -1,7 +1,7 @@
 <!-- PHP code to establish connection with the localserver -->
 <?php
 
- 
+session_start(); 
 // Username is root
 $user = 'admin';
 $password = 'Fit4M0Re!';
@@ -59,7 +59,7 @@ if(isset($_POST['add'])){
 
                 $sql4="SELECT Book.bid as bid, Edition.Format as Format, Book.title AS AutumnFavorites, COUNT(*) AS NumberOfUnitsSold, Author.name AS Author_Name, Edition.price AS Price, RATING_VIEWS.Rating AS Rating FROM Sales_Report INNER JOIN Edition ON Edition.isbn= Sales_Report.isbn INNER JOIN Book ON Book.bid=Edition.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid WHERE MONTH(sale_date)=9 OR MONTH(sale_date)=10 OR MONTH(sale_date)=11 GROUP BY Book.title ORDER BY COUNT(*) DESC LIMIT 10";
                 
-                $sql5="INSERT INTO Cart(email,quantity,price,book_title,bid,Format,Rating)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
+                $sql5="INSERT INTO Cart(email,quantity,price,book_title,bid,Format,Rating)Values('".$_SESSION['email']."','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
                 if(mysqli_query($link, $sql5)){
                 
                 } else{

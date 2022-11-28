@@ -24,16 +24,17 @@ if ($mysqli->connect_error) {
 
 
 ?>
+
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <!-- mobile metas -->
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Online Bookstore</title>
+      <title>rhino</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -53,11 +54,13 @@ if ($mysqli->connect_error) {
       <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
-    <title>Online Book Store</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body >
-   
+   </head>
+   <!-- body -->
+   <body class="main-layout inner_page">
+      <!-- loader  -->
+      <div class="loader_bg">
+         <div class="loader"><img src="images/loading.gif" alt="#"/></div>
+      </div>
       <!-- end loader -->
       <!-- header -->
       <header class="full_bg">
@@ -68,7 +71,7 @@ if ($mysqli->connect_error) {
                   <div class="row">
                      <div class="col-md-3">
                         <ul class="contat_infoma">
-                           <li><i class="fa fa-phone" aria-hidden="true"></i> Call : +17746667771</li>
+                           <li><i class="fa fa-phone" aria-hidden="true"></i> Call : +17656664322</li>
                         </ul>
                      </div>
                      <div class="col-md-6">
@@ -108,41 +111,29 @@ if ($mysqli->connect_error) {
                                  </button>
                                  <div class="collapse navbar-collapse" id="navbarsExample04">
 
-                                  <ul class="navbar-nav mr-auto">
+                                    <ul class="navbar-nav mr-auto">
                                     <div class="collapse navbar-collapse" id="navbarsExample04">
                                     <ul class="navbar-nav mr-auto">
                                        <h1>Welcome <?php  
                                           echo $_SESSION['email'];  
                                        ?> </h1><br>  
+                                    <ul class="navbar-nav mr-auto">
 
-
-                                  
-                                       <form id="index" action="index.html" method="POST">
+                                       <li class="nav-item">
+                                          <a class="nav-link" href="index.html">Home</a>
+                                       </li>
                                        <li class="nav-item active">
-                                          <input type="text" name="email1" value="<?php echo $_SESSION['email'] ?>" hidden>
-                                          <a class="nav-link" href="javascript:{}" onclick="document.getElementById('index').submit();">Home</a>
+                                          <a class="nav-link" href="about.html">About</a>
                                        </li>
-                                       </form>
-
-                                       <form id="about" action="about.php" method="POST">
                                        <li class="nav-item">
-                                          <input type="text" name="email2" value="<?php echo $_SESSION['email'] ?>" hidden>
-                                          <a class="nav-link" href="javascript:{}" onclick="document.getElementById('about').submit();">About</a>
+                                          <a class="nav-link" href="login.php">Login</a>
                                        </li>
-                                    </form>
-
-                                       <form id="index2" action="index.html" method="POST">
                                        <li class="nav-item">
-                                          <a class="nav-link" href="javascript:{}" onclick="document.getElementById('index2').submit();">Logout</a>
+                                          <a class="nav-link" href="register.html">Register</a>
                                        </li>
-                                       </form>
-
-
-                                    <form id="contact" action="contact.php" method="POST">
                                        <li class="nav-item">
-                                          <a class="nav-link" href="javascript:{}" onclick="document.getElementById('contact').submit();">Contact Us</a>
+                                          <a class="nav-link" href="contact.html">Contact Us</a>
                                        </li>
-                                    </form>
                                     </ul>
                                  </div>
                                  <ul class="search">
@@ -156,43 +147,99 @@ if ($mysqli->connect_error) {
                </div>
             </div>
          </div>
-
-    <div class="container mt-5" style="max-width: 555px">
-        <div class="card-header alert alert-warning text-center mb-3">
-            <h2>Online BookStore</h2>
-        </div>
-        <input type="text" class="form-control" name="live_search" id="live_search" autocomplete="off"
-            placeholder="Search ...">
-        <div id="search_result"></div>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#live_search").keyup(function () {
-                var query = $(this).val();
-                if (query != "") {
-                    $.ajax({
-                        url: 'ajax-live-search.php',
-                        method: 'POST',
-                        data: {
-                            query: query
-                        },
-                        success: function (data) {
-                            $('#search_result').html(data);
-                            $('#search_result').css('display', 'block');
-                            // $("#live_search").focusout(function () {
-                            //     $('#search_result').css('display', 'none');
-                            // });
-                            $("#live_search").focusin(function () {
-                                $('#search_result').css('display', 'block');
-                            });
-                        }
-                    });
-                } else {
-                    $('#search_result').css('display', 'none');
-                }
-            });
-        });
-    </script>
-</body>
+         <!-- end header inner -->
+         <!-- end header -->
+         <!-- banner -->
+      </header>
+      <!-- end banner -->
+      <div class="back_re">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="title">
+                     <h2>About</h2>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- about -->
+      <div class="about">
+         <div class="container-fluid">
+            <div class="row d_flex">
+               <div class="col-md-7">
+                  <div class="titlepage">
+                     <h2>About Our Project</h2>
+                     <span>The main objective of the project is to create an online book store that allows users to search and purchase a book based on title, author and subject. The selected books are displayed in a tabular format and the user can order their books online through credit card payment. The Administrator will have additional functionalities when compared to the common user.</span>
+                     <a class="read_more" href="Javascript:void(0)"> Read More</a>
+                  </div>
+               </div>
+               <div class="col-md-5">
+                  <div class="about_img">
+                     <figure><img src="images/banner2.png" alt="#"/></figure>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end about -->
+      <!--  footer -->
+      <footer>
+         <div class="footer">
+            <div class="container">
+               <div class="row">
+                  <div class=" col-lg-3 col-md-6">
+                     <a class="logo_bottom"><img src="images/logo_bottom.png" alt="#"/></a>
+                     <p class="many">
+                        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humou
+                     </p>
+                  </div>
+                  <div class="col-lg-2 offset-lg-1 col-md-6">
+                     <h3>QUICK LINKS</h3>
+                     <ul class="link_menu">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html"> About</a></li>
+                        <li><a href="project.html">Projects</a></li>
+                        <li><a href="staff.html">Staff</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                     </ul>
+                  </div>
+                  <div class=" col-lg-3 col-md-6">
+                     <h3>INSTAGRAM FEEDS</h3>
+                     <ul class="insta text_align_left">
+                        <li><img src="images/inst1.png" alt="#"/></li>
+                        <li><img src="images/inst2.png" alt="#"/></li>
+                        <li><img src="images/inst3.png" alt="#"/></li>
+                        <li><img src="images/inst4.png" alt="#"/></li>
+                     </ul>
+                  </div>
+                  <div class=" col-lg-3 col-md-6 ">
+                     <h3>SIGN UP TO OUR NEWSLETTER </h3>
+                     <form class="bottom_form">
+                        <input class="enter" placeholder="Enter your email" type="text" name="Enter your email">
+                        <button class="sub_btn">Sign Up</button>
+                     </form>
+                  </div>
+               </div>
+            </div>
+            <div class="copyright">
+               <div class="container">
+                  <div class="row">
+                     <div class="col-md-8 offset-md-2">
+                        <p>© 2019 All Rights Reserved. Design by <a href="https://html.design/"> Free Html Templates</a></p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </footer>
+      <!-- end footer -->
+      <!-- Javascript files-->
+      <script src="js/jquery.min.js"></script>
+      <script src="js/bootstrap.bundle.min.js"></script>
+      <script src="js/jquery-3.0.0.min.js"></script>
+      <!-- sidebar -->
+      <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+      <script src="js/custom.js"></script>
+   </body>
 </html>

@@ -36,7 +36,7 @@ $link = mysqli_connect($servername, $user, $password, $database);
 
                 $sql = "SELECT Book.bid as bid,Book.title AS Title, Author.name AS Author_Name, Edition.price AS Price, Edition.Format as Format, RATING_VIEWS.Rating AS Rating FROM Book INNER JOIN Edition ON Edition.bid=Book.bid INNER JOIN Info ON Info.bid=Book.bid INNER JOIN Writes ON Book.bid=Writes.bid INNER JOIN Author ON Writes.aid=Author.aid INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid=Book.bid where Book.title='".$_SESSION['title']."'";
                 
-                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format,Rating)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
+                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format,Rating)Values('".$_SESSION['email']."','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
                 if(mysqli_query($link, $sql2)){
                 
                 } else{
@@ -127,7 +127,8 @@ $link = mysqli_connect($servername, $user, $password, $database);
    </div>
 </form>
     <section>
-        <h1>About this book</h1>
+        <h1>Welcome <?php echo $_SESSION['email'];?> </h1><br>
+        <h1>About this book</h1>       
         <!-- TABLE CONSTRUCTION -->
         <table>
             <tr>

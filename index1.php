@@ -1,4 +1,4 @@
-<<?php  
+<?php  
 session_start();  
   
 if(!$_SESSION['email'])  
@@ -108,22 +108,34 @@ if(!$_SESSION['email'])
                                         
 
 
-
+                                       <form id="index" action="index.html" method="POST">
                                        <li class="nav-item active">
-                                          <a class="nav-link" href="index.html">Home</a>
+                                          <input type="text" name="email1" value="<?php echo $_SESSION['email'] ?>" hidden>
+                                          <a class="nav-link" href="javascript:{}" onclick="document.getElementById('index').submit();">Home</a>
                                        </li>
+                                       </form>
+
+                                       <form id="about" action="about.php" method="POST">
                                        <li class="nav-item">
-                                          <a class="nav-link" href="about.html">About</a>
+                                          <input type="text" name="email2" value="<?php echo $_SESSION['email'] ?>" hidden>
+                                          <a class="nav-link" href="javascript:{}" onclick="document.getElementById('about').submit();">About</a>
                                        </li>
+                                    </form>
+
+                                       <form id="index2" action="index.html" method="POST">
                                        <li class="nav-item">
-                                          <a class="nav-link" href="index.html">Logout</a>
+                                          <a class="nav-link" href="javascript:{}" onclick="document.getElementById('index2').submit();">Logout</a>
                                        </li>
+                                       </form>
+
+
+                                       
+
+                                    <form id="contact" action="contact.php" method="POST">
                                        <li class="nav-item">
-                                          <a class="nav-link" href="register.html">Register</a>
+                                          <a class="nav-link" href="javascript:{}" onclick="document.getElementById('contact').submit();">Contact Us</a>
                                        </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link" href="contact.html">Contact Us</a>
-                                       </li>
+                                    </form>
                                     </ul>
                                  </div>
                                  <ul class="search">
@@ -156,7 +168,7 @@ if(!$_SESSION['email'])
                                  <div class="build_box">
                                     <h1>One stop for all the books</h1>
                                     <!-- <p>There are many variations of passages of Lorem Ipsum available, but the majority<br> There are many variations of passages of</p> -->
-                                    <a class="read_more conatct_btn" href="contact.html" role="button">Contact Us</a>
+                                    <a class="read_more conatct_btn" href="contact.php" role="button">Contact Us</a>
                                     <br>
                                     <br>
                                     <!-- <div class="dropdown">

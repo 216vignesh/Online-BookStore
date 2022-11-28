@@ -30,6 +30,8 @@
    </head>
    <!-- body -->
    <body class="main-layout inner_page">
+
+      <?php session_start(); ?>
       <!-- loader  -->
       <div class="loader_bg">
          <div class="loader"><img src="images/loading.gif" alt="#"/></div>
@@ -83,6 +85,12 @@
                                  <span class="navbar-toggler-icon"></span>
                                  </button>
                                  <div class="collapse navbar-collapse" id="navbarsExample04">
+                                    <ul class="navbar-nav mr-auto">
+                                    <div class="collapse navbar-collapse" id="navbarsExample04">
+                                    <ul class="navbar-nav mr-auto">
+                                       <h1>Welcome <?php session_start();  
+                                          echo $_SESSION['email'];  
+                                       ?> </h1><br>  
                                     <ul class="navbar-nav mr-auto">
                                        <li class="nav-item">
                                           <a class="nav-link" href="index.html">Home</a>

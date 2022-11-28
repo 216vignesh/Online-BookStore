@@ -31,7 +31,7 @@ if(isset($_POST['payment']))
     
     $date = date('Y-m-d h:i:s');
     $date2=date('Y-m-d');
-    $cart_info="SELECT * FROM Cart where email='aallen@example.net'";
+    $cart_info="SELECT * FROM Cart where email='".$_SESSION['email']."'";
     $result_cart_info=$mysqli->query($cart_info);
 
     while($rows_result=$result_cart_info->fetch_assoc()){
@@ -46,7 +46,7 @@ if(isset($_POST['payment']))
                 // header("Location: http://localhost/Online-BookStore/index.html");
                 // echo '<script>alert("Payment successful!!! Your order will be delivered soon")</script>';
         echo "<script>alert('Payment successful!!! Your order will be delivered soon');
-        window.location.href='http://localhost/Online-BookStore/index.html'
+        window.location.href='http://localhost/Online-BookStore/index1.php'
         </script>";
                 
 
@@ -57,12 +57,12 @@ if(isset($_POST['payment']))
     }
 
 
-    $sql0="UPDATE Cart SET tid='$tid' WHERE email='aallen@example.net'";
-    $sql_total="UPDATE Cart SET total_price='".$_SESSION['total']."' where email='aallen@example.net'";
+    $sql0="UPDATE Cart SET tid='$tid' WHERE email='".$_SESSION['email']."'";
+    $sql_total="UPDATE Cart SET total_price='".$_SESSION['total']."' where email='".$_SESSION['email']."'";
     $sql="INSERT INTO Purchase_history(email,quantity,price,book_title,tid,total_price) SELECT email,quantity,price,book_title,tid,total_price FROM Cart";
-    $sql1="INSERT INTO Transaction (tid,timestamp,email) values ('$tid','$date','aallen@example.net')";
-    $sql2="DELETE FROM Cart where email='aallen@example.net'";
-    $sql3 = "SELECT * FROM Cart where email='aallen@example.net' ";
+    $sql1="INSERT INTO Transaction (tid,timestamp,email) values ('$tid','$date','".$_SESSION['email']."')";
+    $sql2="DELETE FROM Cart where email='".$_SESSION['email']."'";
+    $sql3 = "SELECT * FROM Cart where email='".$_SESSION['email']."' ";
         
     $result2=$mysqli->query($sql0);
     if(mysqli_query($link, $sql_total)){
@@ -86,7 +86,7 @@ if(isset($_POST['payment']))
 
 if (isset($_POST['display_cart'])) {
 // SQL query to select data from database
-$sql = "SELECT * FROM Cart where email='aallen@example.net' ";
+$sql = "SELECT * FROM Cart where email='".$_SESSION['email']."' ";
 
 $result = $mysqli->query($sql);
 
@@ -105,7 +105,7 @@ if(isset($_POST['remove']))
                 } else{
                 echo "ERROR: Could not able to execute $sql2. " . mysqli_error($link);
                 }  
-  $sql = "SELECT * FROM Cart where email='aallen@example.net' ";
+  $sql = "SELECT * FROM Cart where email='".$_SESSION['email']."' ";
   $result = $mysqli->query($sql);
 
 }
