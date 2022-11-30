@@ -23,17 +23,33 @@ if(isset($_POST['add'])) {
                 
                 
                 $_SESSION['Rating']=$_POST['Rating'];
+                $_SESSION['email']=$_POST['email'];
                
 
     
                 
-                $sql="INSERT INTO REVIEWS(BookID,email,Rating)Values('".$_SESSION['bid']."','viggy@example.net','".$_SESSION['Rating']."')";
+                $sql="INSERT INTO REVIEWS(BookID,email,Rating)Values('".$_SESSION['bid']."','".$_SESSION['email']."','".$_SESSION['Rating']."')";
                 if(mysqli_query($link, $sql)){
                 
                 } else{
                 echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
                 }                 
                 
+
+                if(mysqli_query($link, $sql)){
+                
+                // header("Location: http://localhost/Online-BookStore/index.html");
+                // echo '<script>alert("Payment successful!!! Your order will be delivered soon")</script>';
+        echo "<script>alert('Rating submitted successfully');
+        window.location.href='http://localhost/Online-BookStore/index1.php'
+        </script>";
+                
+
+                } else{
+                echo "ERROR: Could not able to execute $insert_isbn. " . mysqli_error($link);
+                }  
+
+
                 $result = $mysqli->query($sql);
                 
                 $mysqli->close();
@@ -60,8 +76,8 @@ if(isset($_POST['add'])) {
 <input type="hidden" name="demo_id" id="demo_id" value="1">
 <div class="col-md-4">
 <form action="rating.php" method="post">
-<input type="text" class="form-control" name="email" id="email" placeholder="Email Id"><br>
-<input type="text" class="form-control" name="email" id="email" value="<?php echo $_SESSION['bid'];?>"><br>
+<input type="text" class="form-control" name="email" id="email" value="<?php echo $_SESSION['email'];?>"><br>
+<input type="text" class="form-control" name="bid" id="bid" value="<?php echo $_SESSION['bid'];?>"><br>
 <input type='number' placeholder="Enter the rating out of 5..." name="Rating" required min="1" max="5"><br><br>
 
 <p><input type='submit' name="add" value='Submit Rating'></p>

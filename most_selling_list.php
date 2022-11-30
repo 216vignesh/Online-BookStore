@@ -32,6 +32,8 @@ $result = $mysqli->query($sql1);
 $mysqli->close();
 }
 
+
+
 if(isset($_POST['add'])){
                 $_SESSION['title']=$_POST['title'];
                 $_SESSION['price']=$_POST['price'];
@@ -131,6 +133,7 @@ if(isset($_POST['add'])){
                     $_SESSION["Popular_In_SciFi"]=$rows['Book_Title'];
                     $_SESSION["Price"]=$rows['Price'];
                     $_SESSION["Rating"]=$rows['Rating'];
+                    
                     
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
