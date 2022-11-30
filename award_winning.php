@@ -1,7 +1,7 @@
 <!-- PHP code to establish connection with the localserver -->
 <?php
 
- 
+ session_start();
 // Username is root
 $user = 'admin';
 $password = 'Fit4M0Re!';
@@ -50,7 +50,7 @@ if(isset($_POST['add'])){
                         INNER JOIN Info ON Info.bid = Book.bid
                         INNER JOIN Edition ON Edition.bid = Book.bid;";
                 
-                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('aallen@example.net','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
+                $sql2="INSERT INTO Cart(email,quantity,price,book_title,bid,Format)Values('".$_SESSION['email']."','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."')";
                 if(mysqli_query($link, $sql2)){
                 
                 } else{
