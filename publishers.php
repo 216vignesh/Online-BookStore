@@ -27,10 +27,15 @@ if ($mysqli->connect_error) {
 
 // SQL query to select data from database
 $sql = "SELECT Publisher_book.Publisher, author_writes_book_won_awards.Author,
-            author_writes_book_won_awards.Book ,author_writes_book_won_awards.Award
+    author_writes_book_won_awards.Book ,
+    author_writes_book_won_awards.Award, Book.bid, RATING_VIEWS.Rating, 
+        Edition.price, Edition.Format 
         FROM author_writes_book_won_awards
         INNER JOIN Publisher_book ON Publisher_book.Book = author_writes_book_won_awards.Book
-        ORDER BY Publisher";
+        INNER JOIN Book ON Book.title = author_writes_book_won_awards.Book
+        INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid = Book.bid
+        INNER JOIN Edition ON Edition.bid = Book.bid
+        ORDER BY Publisher;";
 
 $result = $mysqli->query($sql);
 
@@ -42,6 +47,39 @@ echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);}
 $result = $mysqli->query($sql);
 $mysqli->close();
 
+if(isset($_POST['add'])){
+                $_SESSION['title']=$_POST['title'];
+                $_SESSION['price']=$_POST['price'];
+                $_SESSION['quantity']=$_POST['quantity'];
+                $_SESSION['bid']=$_POST['bid'];
+                $_SESSION['Format']=$_POST['Format'];
+                $_SESSION['Rating']=$_POST['Rating'];
+
+                $sql = "SELECT Publisher_book.Publisher, author_writes_book_won_awards.Author,
+    author_writes_book_won_awards.Book ,
+    author_writes_book_won_awards.Award, Book.bid, RATING_VIEWS.Rating, 
+        Edition.price, Edition.Format 
+        FROM author_writes_book_won_awards
+        INNER JOIN Publisher_book ON Publisher_book.Book = author_writes_book_won_awards.Book
+        INNER JOIN Book ON Book.title = author_writes_book_won_awards.Book
+        INNER JOIN RATING_VIEWS ON RATING_VIEWS.bid = Book.bid
+        INNER JOIN Edition ON Edition.bid = Book.bid
+        ORDER BY Publisher;";
+                
+                $sql2="
+                INSERT INTO Cart(email,quantity,price,book_title,bid,Format,Rating)
+                Values('".$_SESSION['email']."','".$_SESSION['quantity']."','".$_SESSION['price']."','".$_SESSION['title']."','".$_SESSION['bid']."','".$_SESSION['Format']."','".$_SESSION['Rating']."')";
+
+                if(mysqli_query($link, $sql2)){
+                
+                } else{
+                echo "ERROR: Could not able to execute $sql2. " . mysqli_error($link);
+                }                 
+                
+                $result = $mysqli->query($sql);
+                $mysqli->close();
+                }
+
 ?>
 
 <!-- HTML code to display data in tabular format -->
@@ -50,7 +88,7 @@ $mysqli->close();
  
 <head>
     <meta charset="UTF-8">
-    <title>Online Book Store</title>
+    <title>Top Publishers</title>
     <!-- CSS FOR STYLING THE PAGE -->
     <style>
         table {
@@ -94,7 +132,7 @@ $mysqli->close();
    </div>
 </form>
     <section>
-        <h1>Publishing Housese with Award Winning Books</h1>
+        <h1>Publishing Houses with Award Winning Books</h1>
         <!-- TABLE CONSTRUCTION -->
         <table>
             <tr>
@@ -103,23 +141,47 @@ $mysqli->close();
                 <th>Publisher</th>
                 <th>Author</th>
                 <th>Book</th>
+                
                 <th>Award</th>
+                <th>Book ID</th>
+                <th>Format</th>
+                <th>Price</th>
+                <th>Add to Cart</th>
+                <th>Ratings</th>
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
             <?php
                 // LOOP TILL END OF DATA
                 while($rows=$result->fetch_assoc())
                 {
+                    $_SESSION["Book"]=$rows['Book'];
+                    $_SESSION["Price"]=$rows['price'];
+                    $_SESSION["Rating"]=$rows['Rating'];
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <tr>
                 <!-- FETCHING DATA FROM EACH
                     ROW OF EVERY COLUMN -->
+                
+                <!-- FETCHING DATA FROM EACH
+                    ROW OF EVERY COLUMN -->
                 <td><?php echo $rows['Publisher'];?></td>
                 <td><?php echo $rows['Author'];?></td>
-                <td><?php echo $rows['Book'];?></td>
+                <td><input type="text" name="title" value="<?php echo $rows["Book"] ?>" readonly></td>
                 <td><?php echo $rows['Award'];?></td>
-                
+                <td><input type="text" name="bid" value="<?php echo $rows['bid'];?>" readonly></td>
+                <td><input type="text" name="Format" value="<?php echo $rows['Format'];?>" readonly></td>
+                <td><input type="text" name="price" value="<?php echo $rows['price'] ?>" readonly></td>
+                <td><input type="number" name="quantity" min="1" max="100"><input type="submit" name="add" value="Add to Cart"></td>
+                <td><input type="text" name="Rating" value="<?php echo round($rows['Rating'],2);?>" readonly>
+            <!--</tr>-->
+        </form>
+        <form action="rating.php" method="POST">
+                <input type="text" name="bid" value="<?php echo $rows['bid'];?>" hidden>
+
+                <input type="submit" name="add1" value="Submit a Review"></td>
+        </form>
+
             </tr>
         </form>
             <?php
