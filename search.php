@@ -27,6 +27,16 @@ if ($mysqli->connect_error) {
 <!DOCTYPE html>
 <html>
 <head>
+  <style type="text/css">
+    input[type=submit] {
+        padding: 5px 15px;
+        background: #99e0b2;
+        border: 0 none;
+        cursor: pointer;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+      }
+  </style>
     <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <!-- mobile metas -->
@@ -111,9 +121,9 @@ if ($mysqli->connect_error) {
                                   <ul class="navbar-nav mr-auto">
                                     <div class="collapse navbar-collapse" id="navbarsExample04">
                                     <ul class="navbar-nav mr-auto">
-                                       <h1>Welcome <?php  
+                                       <h5 align="left">Welcome <?php  
                                           echo $_SESSION['email'];  
-                                       ?> </h1><br>  
+                                       ?> </h5><br>  
 
 
                                   
@@ -162,9 +172,28 @@ if ($mysqli->connect_error) {
             <h2>Online BookStore</h2>
         </div>
         <input type="text" class="form-control" name="live_search" id="live_search" autocomplete="off"
-            placeholder="Search ...">
+            placeholder="Title Search ...">
         <div id="search_result"></div>
     </div>
+
+    <div class="container mt-5" style="max-width: 555px">
+        
+        <form id="search_author" action="search_author.php" method="POST">
+        <input type="text" class="form-control" name="live_search_author" id="live_search" autocomplete="off"
+            placeholder="Search by author name ...">
+            <br>
+
+        <input type="submit" name="author" value="Search by author">
+
+        <!-- <li class="nav-item active">
+            <a class="nav-link" href="javascript:{}" onclick="document.getElementById('search_author').submit();">Search by author</a>
+        </li> -->
+      </form>
+        <div id="search_result_author"></div>
+    </div>
+
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -194,5 +223,8 @@ if ($mysqli->connect_error) {
             });
         });
     </script>
+
+
+
 </body>
 </html>
