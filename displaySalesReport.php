@@ -18,7 +18,7 @@ if ($mysqli->connect_error) {
     $mysqli->connect_error);
 }
 
-    $sql = "SELECT sale_date, isbn, discount, itemid, orderid FROM Sales_Report;";
+    $sql = "SELECT sale_date, isbn, discount, itemid, orderid FROM Sales_Report LIMIT 100;";
 
 ?>
 
@@ -67,8 +67,10 @@ if ($mysqli->connect_error) {
  
 <body>
     <body>
-  <img src="images/sales_pie.jpg">
-    </img>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <form role="form" method="post" action="generatePdf.php" id="generatePdf" align="center">
+         <button type="submit" name="pdf">Generate PDF</button>
+      </form>
   </body>
     <section>
         <h1>Sales Report Table</h1>
@@ -108,7 +110,9 @@ if ($mysqli->connect_error) {
             ?>
         </table>
         </section>
-    
+        <br>
+        <br>
+<img src="images/sales_pie.jpg" align="center" class="mx-auto d-block"> </img>
 </body>
  
 </html>
