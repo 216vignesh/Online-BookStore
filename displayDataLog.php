@@ -66,7 +66,7 @@ if ($mysqli->connect_error) {
  
 <body>
     <section>
-        <h1>Sales Report Table</h1>
+        <h1>Data Log (Changes made in Book Table)</h1>
         <!-- TABLE CONSTRUCTION -->
         <table>
             <tr>
