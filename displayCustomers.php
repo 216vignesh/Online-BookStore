@@ -17,8 +17,10 @@ if ($mysqli->connect_error) {
     $mysqli->connect_errno . ') '.
     $mysqli->connect_error);
 }
-
-    $sql = "SELECT sale_date, isbn, discount, itemid, orderid FROM Sales_Report LIMIT 100;";
+    $sql = "SELECT email, name, contactno, shippingAdd 
+            FROM Customer
+            ORDER BY name
+            LIMIT 100;";
 
 ?>
 
@@ -66,22 +68,15 @@ if ($mysqli->connect_error) {
 </head>
  
 <body>
-    <body>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <form role="form" method="post" action="generatePdf.php" id="generatePdf" align="center">
-         <button type="submit" name="pdf">Generate PDF</button>
-      </form>
-  </body>
     <section>
         <h1>Sales Report Table</h1>
-        <!-- TABLE CONSTRUCTION -->
+        <!-- TABLE CONSTRUCTION email, name, contactno, shippingAdd -->
         <table>
             <tr>
-                <th>Sales Date</th>
-                <th>ISBN</th>
-                <th>Discount</th>
-                <th>Item ID</th>
-                <th>Order ID</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Contact Number</th>
+                <th>Shipping Address</th>
 
             </tr>
             <!-- PHP CODE TO FETCH DATA FROM ROWS -->
@@ -94,13 +89,11 @@ if ($mysqli->connect_error) {
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <tr>
-                <!-- FETCHING DATA FROM EACH ROW OF EVERY COLUMN 
-                isbn, bid, publication_date, pages, print_run, price, Format-->
-                <td><?php echo $rows['sale_date'];?></td>
-                <td><?php echo $rows['isbn'];?></td>
-                <td><?php echo $rows['discount'];?></td>
-                <td><?php echo $rows['itemid'];?></td>
-                <td><?php echo $rows['orderid'];?></td>
+                <!-- FETCHING DATA FROM EACH ROW OF EVERY COLUMN-->
+                <td><?php echo $rows['email'];?></td>
+                <td><?php echo $rows['name'];?></td>
+                <td><?php echo $rows['contactno'];?></td>
+                <td><?php echo $rows['shippingAdd'];?></td>
             </tr>
         </form>
             <?php
@@ -110,9 +103,8 @@ if ($mysqli->connect_error) {
             ?>
         </table>
         </section>
-        <br>
-        <br>
-<img src="images/sales_pie.jpg" align="center" class="mx-auto d-block"> </img>
+
+    
 </body>
  
 </html>
