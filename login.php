@@ -189,13 +189,13 @@ include('db_connection.php');
 if(isset($_POST['login']))  
 {  
     $user_email=$_POST['email'];  
-    $user_pass=$_POST['pass'];  
+    $_SESSION['user_pass']=$_POST['pass'];  
       
     if($user_email == 'admin@admin.com' && $user_pass == 'admin'){
       echo "<script>window.open('adminOptions.html','_self')</script>";
     }else{
-      $check_user="select * from Customer WHERE email='$user_email'AND password='$user_pass'";  
-      echo "<script>window.open('index1.php','_self')</script>";
+      $check_user="select * from Customer WHERE email='$user_email'AND password='".$_SESSION['user_pass']."'";  
+      // echo "<script>window.open('index1.php','_self')</script>";
       $run=mysqli_query($dbcon,$check_user);  
     if(mysqli_num_rows($run))  
     {  
