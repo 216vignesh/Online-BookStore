@@ -1,30 +1,3 @@
-<?php
-
-session_start();
-// Username is root
-$user = 'admin';
-$password = 'Fit4M0Re!';
- 
-
-$database = 'BookStore';
-// Server is localhost with
-// port number 3306
-$servername='dbms-project.csddeoelb5pk.us-east-1.rds.amazonaws.com:3306';
-$mysqli = new mysqli($servername, $user,
-                $password, $database);
-$link = mysqli_connect($servername, $user, $password, $database);
-
-
-// Checking for connections
-if ($mysqli->connect_error) {
-    die('Connect Error (' .
-    $mysqli->connect_errno . ') '.
-    $mysqli->connect_error);
-}
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -34,7 +7,7 @@ if ($mysqli->connect_error) {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>rhino</title>
+      <title>Online BookStore</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -84,7 +57,7 @@ if ($mysqli->connect_error) {
                      </div>
                      <div class="col-md-3">
                         <ul class="contat_infoma text_align_right">
-                           <li><a href="Javascript:void(0)"> <i class="fa fa-phone" aria-hidden="true"></i> demo@gmail.com</a></li>
+                           <li><a href="Javascript:void(0)"> <i class="fa fa-phone" aria-hidden="true"></i> parthdhruv62@gmail.com</a></li>
                         </ul>
                      </div>
                   </div>
@@ -99,7 +72,7 @@ if ($mysqli->connect_error) {
                               <div class="full">
                                  <div class="center-desk">
                                     <div class="logo">
-                                       <a href="index.html">Rhino</a>
+                                       <a href="index.html">ONLINE BOOKSTORE</a>
                                     </div>
                                  </div>
                               </div>
@@ -110,12 +83,6 @@ if ($mysqli->connect_error) {
                                  <span class="navbar-toggler-icon"></span>
                                  </button>
                                  <div class="collapse navbar-collapse" id="navbarsExample04">
-                                    <ul class="navbar-nav mr-auto">
-                                    <div class="collapse navbar-collapse" id="navbarsExample04">
-                                    <ul class="navbar-nav mr-auto">
-                                       <h1>Welcome <?php  
-                                          echo $_SESSION['email'];  
-                                       ?> </h1><br>  
                                     <ul class="navbar-nav mr-auto">
                                        <li class="nav-item ">
                                           <a class="nav-link" href="index.html">Home</a>
@@ -165,7 +132,7 @@ if ($mysqli->connect_error) {
          <div class="container">
             <div class="row">
                <div class="col-md-6 padding_right0">
-                  <form id="request" class="main_form">
+                  <form action = "con_details.php" id="request" class="main_form" method="post">
                      <div class="row">
                         <div class="col-md-12 ">
                            <input class="contactus" placeholder="Name" type="type" name="Name"> 
@@ -177,10 +144,10 @@ if ($mysqli->connect_error) {
                            <input class="contactus" placeholder="Email" type="type" name="Email"> 
                         </div>
                         <div class="col-md-12">
-                           <textarea class="textarea" placeholder="Message" type="type" Message="Name">Message</textarea>
+                           <textarea class="textarea" placeholder="Message" type="type" name="Message">Message</textarea>
                         </div>
                         <div class="col-md-12">
-                           <button class="send_btn">Send</button>
+                           <button type="submit" name="submit" class="send_btn">Send</button>
                         </div>
                      </div>
                   </form>
@@ -188,7 +155,8 @@ if ($mysqli->connect_error) {
                <div class="col-md-6 padding_left0">
                   <div class="map_main">
                      <div class="map-responsive">
-                        <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&amp;q=Eiffel+Tower+Paris+France" width="600" height="463" frameborder="0" style="border:0; width: 100%;" allowfullscreen=""></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2952.184261833394!2d-71.80885318494711!3d42.27458987919266!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e4065910373677%3A0xc6c3218673dc6dad!2sWorcester%20Polytechnic%20Institute!5e0!3m2!1sen!2sus!4v1669581383430!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <!-- <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&amp;q=Eiffel+Tower+Paris+France" width="600" height="463" frameborder="0" style="border:0; width: 100%;" allowfullscreen=""></iframe> -->
                      </div>
                   </div>
                </div>
@@ -202,9 +170,13 @@ if ($mysqli->connect_error) {
             <div class="container">
                <div class="row">
                   <div class=" col-lg-3 col-md-6">
-                     <a class="logo_bottom"><img src="images/logo_bottom.png" alt="#"/></a>
+                  <h1 class="many">
+                        Online Book Store
+                     </h1>
+                     <br>   
+                  <!-- <a class="logo_bottom"><img src="images/logo_bottom.png" alt="#"/></a> -->
                      <p class="many">
-                        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humou
+                     The main objective of the project is to create an online book store that allows users to search and purchase a book based on title, author and subject. The selected books are displayed in a tabular format and the user can order their books online through credit card payment. The Administrator will have additional functionalities when compared to the common user
                      </p>
                   </div>
                   <div class="col-lg-2 offset-lg-1 col-md-6">
@@ -239,7 +211,7 @@ if ($mysqli->connect_error) {
                <div class="container">
                   <div class="row">
                      <div class="col-md-8 offset-md-2">
-                        <p>© 2019 All Rights Reserved. Design by <a href="https://html.design/"> Free Html Templates</a></p>
+                        <!-- <p>© 2019 All Rights Reserved. Design by <a href="https://html.design/"> Free Html Templates</a></p> -->
                      </div>
                   </div>
                </div>
@@ -255,4 +227,20 @@ if ($mysqli->connect_error) {
       <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
       <script src="js/custom.js"></script>
    </body>
+   <?php
+// include('db_connection.php');//make connection here 
+// if(isset($_POST['submit']))  
+// {  
+//     $user_name=$_POST['Name'];//here getting result from the post array after submitting the form.  
+//     $user_phone = $_POST['Phone'];
+//     $user_email=$_POST['Email'];//same 
+//     $user_message=$_POST['Message'];//same
+    
+// }
+
+//     echo $user_name;
+
+
+
+?>
 </html>

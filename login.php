@@ -84,7 +84,7 @@ function __construct()
                     </div>
                     <div class="col-md-3">
                        <ul class="contat_infoma text_align_right">
-                          <li><a href="Javascript:void(0)"> <i class="fa fa-phone" aria-hidden="true"></i> demo@gmail.com</a></li>
+                          <li><a href="Javascript:void(0)"> <i class="fa fa-phone" aria-hidden="true"></i> parthdhruv62@gmail.com</a></li>
                        </ul>
                     </div>
                  </div>
@@ -125,9 +125,13 @@ function __construct()
          <div class="container">
             <div class="row">
                <div class=" col-lg-3 col-md-6">
-                  <a class="logo_bottom"><img src="images/logo_bottom.png" alt="#"/></a>
+               <h1 class="many">
+                        Online Book Store
+                     </h1>
+                     <br>   
+               <!-- <a class="logo_bottom"><img src="images/logo_bottom.png" alt="#"/></a> -->
                   <p class="many">
-                     There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humou
+                  The main objective of the project is to create an online book store that allows users to search and purchase a book based on title, author and subject. The selected books are displayed in a tabular format and the user can order their books online through credit card payment. The Administrator will have additional functionalities when compared to the common user
                   </p>
                </div>
                <div class="col-lg-2 offset-lg-1 col-md-6">
@@ -162,7 +166,7 @@ function __construct()
             <div class="container">
                <div class="row">
                   <div class="col-md-8 offset-md-2">
-                     <p>© 2019 All Rights Reserved. Design by <a href="https://html.design/"> Free Html Templates</a></p>
+                     <!-- <p>© 2019 All Rights Reserved. Design by <a href="https://html.design/"> Free Html Templates</a></p> -->
                   </div>
                </div>
             </div>

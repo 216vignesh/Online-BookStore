@@ -57,7 +57,7 @@
                      </div>
                      <div class="col-md-3">
                         <ul class="contat_infoma text_align_right">
-                           <li><a href="Javascript:void(0)"> <i class="fa fa-phone" aria-hidden="true"></i> demo@gmail.com</a></li>
+                           <li><a href="Javascript:void(0)"> <i class="fa fa-phone" aria-hidden="true"></i> parthdhruv62@gmail.com</a></li>
                         </ul>
                      </div>
                   </div>
@@ -97,7 +97,7 @@
                                           <a class="nav-link" href="register.html">Register</a>
                                        </li>
                                        <li class="nav-item">
-                                          <a class="nav-link" href="contact.html">Contact Us</a>
+                                          <a class="nav-link" href="contact.php">Contact Us</a>
                                        </li>
                                     </ul>
                                  </div>
@@ -126,6 +126,8 @@
                   <div class="carousel-item active">
                      <div class="container">
                         <div class="carousel-caption  banner_po">
+                           <!-- <p style="background-image: url('../images/pexels-photo-2249063.png');"> -->
+
                            <div class="row">
                               <div class="col-md-9">
                                  <div class="build_box">
@@ -353,7 +355,7 @@
             </div>
             <div class="row">
                <div class="col-md-6 padding_right0">
-                  <form id="request" class="main_form">
+                  <form action = "con_details.php" id="request" class="main_form" method="post">
                      <div class="row">
                         <div class="col-md-12 ">
                            <input class="contactus" placeholder="Name" type="type" name="Name"> 
@@ -365,10 +367,10 @@
                            <input class="contactus" placeholder="Email" type="type" name="Email"> 
                         </div>
                         <div class="col-md-12">
-                           <textarea class="textarea" placeholder="Message" type="type" Message="Name">Message</textarea>
+                           <textarea class="textarea" placeholder="Message" type="type" name="Message">Message</textarea>
                         </div>
                         <div class="col-md-12">
-                           <button class="send_btn">Send</button>
+                           <button type="submit" name="submit" class="send_btn">Send</button>
                         </div>
                      </div>
                   </form>
@@ -376,7 +378,8 @@
                <div class="col-md-6 padding_left0">
                   <div class="map_main">
                      <div class="map-responsive">
-                        <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&amp;q=Eiffel+Tower+Paris+France" width="600" height="463" frameborder="0" style="border:0; width: 100%;" allowfullscreen=""></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2952.184261833394!2d-71.80885318494711!3d42.27458987919266!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e4065910373677%3A0xc6c3218673dc6dad!2sWorcester%20Polytechnic%20Institute!5e0!3m2!1sen!2sus!4v1669581383430!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <!-- <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&amp;q=Eiffel+Tower+Paris+France" width="600" height="463" frameborder="0" style="border:0; width: 100%;" allowfullscreen=""></iframe> -->
                      </div>
                   </div>
                </div>
@@ -429,7 +432,7 @@
                <div class="container">
                   <div class="row">
                      <div class="col-md-8 offset-md-2">
-                        <p>© 2022 All Rights Reserved. Design by <a href="https://html.design/"> Free Html Templates</a></p>
+                        <!-- <p>© 2022 All Rights Reserved. Design by <a href="https://html.design/"> Free Html Templates</a></p> -->
                      </div>
                   </div>
                </div>

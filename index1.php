@@ -153,7 +153,7 @@ if(!$_SESSION['email'])
                                  <div class="build_box">
                                     <h1>One stop for all the books</h1>
                                     <!-- <p>There are many variations of passages of Lorem Ipsum available, but the majority<br> There are many variations of passages of</p> -->
-                                    <a class="read_more conatct_btn" href="contact.html" role="button">Contact Us</a>
+                                    <a class="read_more conatct_btn" href="contact.php" role="button">Contact Us</a>
                                     <br>
                                     <br>
                                     <!-- <div class="dropdown">
@@ -375,7 +375,7 @@ if(!$_SESSION['email'])
             </div>
             <div class="row">
                <div class="col-md-6 padding_right0">
-                  <form id="request" class="main_form">
+                  <form action="con_details.php" id="request" class="main_form" method="post">
                      <div class="row">
                         <div class="col-md-12 ">
                            <input class="contactus" placeholder="Name" type="type" name="Name"> 
@@ -387,10 +387,10 @@ if(!$_SESSION['email'])
                            <input class="contactus" placeholder="Email" type="type" name="Email"> 
                         </div>
                         <div class="col-md-12">
-                           <textarea class="textarea" placeholder="Message" type="type" Message="Name">Message</textarea>
+                           <textarea class="textarea" placeholder="Message" type="type" name="Message">Message</textarea>
                         </div>
                         <div class="col-md-12">
-                           <button class="send_btn">Send</button>
+                        <button type="submit" name="submit" class="send_btn">Send</button>
                         </div>
                      </div>
                   </form>
@@ -398,7 +398,8 @@ if(!$_SESSION['email'])
                <div class="col-md-6 padding_left0">
                   <div class="map_main">
                      <div class="map-responsive">
-                        <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&amp;q=Eiffel+Tower+Paris+France" width="600" height="463" frameborder="0" style="border:0; width: 100%;" allowfullscreen=""></iframe>
+                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2952.184261833394!2d-71.80885318494711!3d42.27458987919266!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e4065910373677%3A0xc6c3218673dc6dad!2sWorcester%20Polytechnic%20Institute!5e0!3m2!1sen!2sus!4v1669581383430!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>  
+                     <!-- <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&amp;q=Eiffel+Tower+Paris+France" width="600" height="463" frameborder="0" style="border:0; width: 100%;" allowfullscreen=""></iframe> -->
                      </div>
                   </div>
                </div>
@@ -432,7 +433,7 @@ if(!$_SESSION['email'])
                         <li><a href="about.html"> About</a></li>
                         <li><a href="project.html">Projects</a></li>
                         <li><a href="staff.html">Staff</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="contact.php">Contact Us</a></li>
                      </ul>
                   </div>
                   <div class=" col-lg-3 col-md-6">
@@ -451,7 +452,7 @@ if(!$_SESSION['email'])
                <div class="container">
                   <div class="row">
                      <div class="col-md-8 offset-md-2">
-                        <p>© 2022 All Rights Reserved. Design by <a href="https://html.design/"> Free Html Templates</a></p>
+                        <!-- <p>© 2022 All Rights Reserved. Design by <a href="https://html.design/"> Free Html Templates</a></p> -->
                      </div>
                   </div>
                </div>

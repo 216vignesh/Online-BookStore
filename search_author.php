@@ -115,11 +115,11 @@ if(isset($_POST['add'])){
    </div>
 </form>
     <section>
-        <h1>Sci-Fi Popular books</h1>
+        <h1>Books by the author</h1>
         <!-- TABLE CONSTRUCTION -->
         <table>
             <tr>
-                <th>Popular books in Sci-Fi</th>
+                <th>Book Title</th>
                 <th>Book ID</th>
                 <th>Author</th>
                 <th>Format</th>

@@ -400,7 +400,7 @@ ul.search li a:hover {
 /** banner section **/
 
 .full_bg {
-     background: url(../images/banner2.jpg);
+     background: url(../images/background.png);
      background-size: 100% 100%;
      background-position: center;
      background-repeat: no-repeat;
@@ -515,9 +515,9 @@ ul.search li a:hover {
 
 .read_more {
      font-size: 17px;
-     background-color: #1b1b1a;
+     background-color: #fe9901;
      color: #fff;
-     padding: 17px 0px;
+     padding: 30px 0px;
      width: 100%;
      max-width: 186px;
      text-align: center;
@@ -530,7 +530,7 @@ ul.search li a:hover {
 }
 
 .read_more:hover {
-     background: #f4a111;
+     /* background: #f4a111; */
      color: #fff;
      transition: ease-in all 0.5s;
 }
@@ -1309,7 +1309,7 @@ ul.insta li {
           ;
      }
      /* Standard syntax */
-     @keyframes myfirst {
+     /* @keyframes myfirst {
           0% {
                left: 0px;
                top: 0;
@@ -1337,3 +1337,5 @@ ul.insta li {
           }
      }
      /* end truck*/
+
+}
